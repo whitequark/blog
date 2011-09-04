@@ -2,17 +2,17 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://whitequark.org
+title: whitespace
+subtitle: Has someone just said “lowlevel”?
+author: Peter Zotov
 simple_search: http://google.com/search
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
-email:
+email: whitequark@whitequark.org
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -48,28 +48,12 @@ default_asides: [asides/recent_posts.html, asides/twitter.html, asides/delicious
 #   3rd Party Settings    #
 # ----------------------- #
 
-# Twitter
-twitter_user:
-twitter_tweet_count: 4
-twitter_show_replies: false
-twitter_follow_button: true
-twitter_show_follower_count: false
-twitter_tweet_button: true
-
 # Google Plus
 google_plus_one: true
 google_plus_one_size: medium
 
-# Pinboard
-pinboard_user:
-pinboard_count: 3
-
-# Delicious
-delicious_user:
-delicious_count: 3
-
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: whitequark-org
 
 # Google Analytics
 google_analytics_tracking_id:
