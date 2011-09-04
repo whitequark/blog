@@ -226,3 +226,16 @@ Compile the modified kernel and reboot. Voilá: ACPI driver can now set backligh
   [dsdt-bcl]: https://github.com/whitequark/n250-dsdt/blob/513e61875a3b2cb2ade0911d24fe72cbb85e275a/dsdt.dsl#L1767
   [dsdt-igd0]: https://github.com/whitequark/n250-dsdt/blob/513e61875a3b2cb2ade0911d24fe72cbb85e275a/dsdt.dsl#L1325
   [dsdt-blfix]: https://github.com/whitequark/n250-dsdt/commit/5263e541ffc223325136a78e49008cc7c988a3b8#diff-0
+
+Other features
+--------------
+
+To locate other fields in the PCI configuration space which might be changed by SMM-based driver, I wrote a [simple script][diff-pci]. Note that some devices, namely PCI-Express bridges and network devices, have a lot of spurious changes which happen in background on their own.
+
+Sadly, not the fan speed nor wireless rfkill switch state were not linked to any changes within configuration space. I guess that they may be done through [Embedded Controller][] and via [SMBus][] interface, which means that no permanent changes are accumulated in the system RAM itself, and all of the processing is buried deep in the SMM BIOS.
+
+Moreover, even if I could find the rfkill interface, there is no standard way to describe it in ACPI. On laptops where it actually is exported via ACPI, there is a platform-specific driver handling that (contrary to the backlight, which can be controlled in a generic way).
+
+  [diff-pci]: https://gist.github.com/1193679
+  [embedded controller]: http://www.coreboot.org/Embedded_controller
+  [smbus]: http://en.wikipedia.org/wiki/SMBus
