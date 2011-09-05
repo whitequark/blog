@@ -19,7 +19,7 @@ Theoretically, this system should have been made hardware-specific chipset drive
 
 In reality, however, [x86][]-based hardware vendors would supply buggy and incomplete ACPI tables for their systems, and vendor lock-in appears not as the least reason to me. Therefore, such systems require numerous nontrivial workarounds, often flawed and undocumented. I've attempted to fix the ACPI itself for a particular computer instead.
 
-The system <u>at the point</u> is a Samsung N250+ netbook. It has quite good hardware (except for battery-hungry and quirky Broadcom WLAN card which I have replaced with a better one by Atheros), but the ROM BIOS quality is really poor. At the moment of release there even was no way of enabling the wireless card on a Linux system; its state could be changed via CMOS Setup, through. Now there is a kernel driver, but it uses a fundamentally flawed approach, too (and it has some [usability problems][]).
+The system I have is a Samsung N250+ netbook. It has quite good hardware (except for battery-hungry and quirky Broadcom WLAN card which I have replaced with a better one by Atheros), but the ROM BIOS quality is really poor. At the moment of release there even was no way of enabling the wireless card on a Linux system; its state could be changed via CMOS Setup, through. Now there is a kernel driver, but it uses a fundamentally flawed approach, too (and it has some [usability problems][]).
 
   [acpi]: http://en.wikipedia.org/wiki/ACPI
   [x86]: http://en.wikipedia.org/wiki/x86
@@ -219,6 +219,8 @@ As ACPI has hierarchical naming system, our field is now globally accessible as 
 ```
 
 Updated DSDT can be found in the [repository][dsdt-blfix].
+
+While testing the changes, I've encountered a need for debugging the code. This can be done with a `Store (something, Debug)` command. Don't forget to enable ACPI debug output by adding `acpi.debug_level=0x1f` parameter to kernel command line.
 
 The changed and compiled (`iasl -tc dsdt.dsl`) DSDT should now replace vendor-provided one. To achieve the goal, we could reflash the BIOS—but it is not even known where DSDT is located in it. So, a simpler approach can be used: Linux can be instructed to ignore the DSDT found in system RAM and load a provided one instead. To do that, you should place compiled file `dsdt.hex` (verify that it contains a C array definition; the `-tc` option instructs `iasl` to emit one) in `include/` directory of Linux source tree and set option `CONFIG_ACPI_CUSTOM_DSDT_FILE` to `dsdt.hex`. (To be able to access the latter, you should turn off `CONFIG_STANDALONE`; it is named “Select only drivers that do not need compile-time external firmware” and located in “Generic driver options”.)
 
