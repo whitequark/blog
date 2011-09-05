@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-In this article I'd like describe some of the typical BIOS design flaws of a modern netbook, and methods which can be used to locate, dissect and heal the bugs.
+In this article I'd like to describe some of the typical BIOS design flaws of a modern netbook, and methods which can be used to locate, dissect and heal the bugs.
 <!--more-->
 
 Introduction
