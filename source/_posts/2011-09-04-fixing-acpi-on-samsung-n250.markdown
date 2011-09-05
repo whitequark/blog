@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-In this article I'd like describe some of the typical BIOS design flaws of a modern netbook, and methods which can be used to locate, dissect and fix the bugs.
+In this article I'd like describe some of the typical BIOS design flaws of a modern netbook, and methods which can be used to locate, dissect and heal the bugs.
 <!--more-->
 
 Introduction
@@ -73,7 +73,7 @@ In this case, PWM _duty cycle_ is probably controlled by an integrated graphics 
     <...>
 ```
 
-The numbers `00:02.0` is an address of the device on the bus. With this address, we can inspect and modify the properties of the device, as Linux provides numerous [sysfs][] hooks for that purpose. One of them is an ability to read and write [PCI configuration space][]: a memory block of 256 bytes used to configure a PCI devide. First 64 of them have predefined meaning; other ones can be freely used by device vendor.
+The numbers `00:02.0` are an address of the device on the bus. With this address, we can inspect and modify the properties of the device, as Linux provides numerous [sysfs][] hooks for that purpose. One of them is an ability to read and write [PCI configuration space][]: a memory block of 256 bytes used to configure a PCI devide. First 64 of them have predefined meaning; other ones can be freely used by device vendor.
 
 Let's check what changes in the device configuration when we alter backlight level with an SMM-based driver (note that it would be perfectly possible with a closed-source driver or even on Windows: all you need is a tool to scrap the configuration space):
 
@@ -236,9 +236,9 @@ Compile the modified kernel and reboot. Voilá: ACPI driver can now set backligh
 Other features
 --------------
 
-To locate other fields in the PCI configuration space which might be changed by SMM-based driver, I wrote a [simple script][diff-pci]. Note that some devices, namely PCI-Express bridges and network devices, have a lot of spurious changes which happen in background on their own.
+To locate other fields in the PCI configuration space which might be changed by SMM-based driver, I wrote a [simple script][diff-pci]. Note that some devices, namely PCI-Express bridges and network adapters, have a lot of spurious changes which happen in background on their own.
 
-Sadly, not the fan speed nor wireless rfkill switch state were not linked to any changes within configuration space. I guess that they may be done through [Embedded Controller][] and via [SMBus][] interface, which means that no permanent changes are accumulated in the system RAM itself, and all of the processing is buried deep in the SMM BIOS.
+Sadly, not the fan speed nor wireless rfkill switch state were not linked to any changes within the configuration space. I guess that they may be done through [Embedded Controller][] and via [SMBus][] interface, which means that no permanent changes are accumulated in the system RAM itself, and all of the processing is buried deep inside the SMM BIOS.
 
 Moreover, even if I could find the rfkill interface, there is no standard way to describe it in ACPI. On laptops where it actually is exported via ACPI, there is a platform-specific driver handling that (contrary to the backlight, which can be controlled in a generic way).
 
