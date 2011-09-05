@@ -4,3 +4,11 @@
 .heading {
   font-family: "Andika";
 }
+
+article header {
+  p.meta span {
+    font-size: 60%;
+    position: relative;
+    top: -0.8em;
+  }
+}
