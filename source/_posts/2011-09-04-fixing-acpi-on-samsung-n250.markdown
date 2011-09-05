@@ -137,7 +137,11 @@ According to [ACPI specification][] (section B.6.2, page 704), a compliant graph
 
         /* Predicate names are beginned with L (from "Logic") in
          * ACPI. Here, LEqual(Local0, 0x00) may be written as
-         * (Local0 == 0x00) in C. */
+         * (Local0 == 0x00) in C.
+         *
+         * As you can see, for half of valid brightness levels this
+         * will silently do nothing.
+         */
         If (LEqual (Local0, 0x00))
         {
             /* Pass the target level to BRTW function (line 5324).
