@@ -164,23 +164,23 @@ end
 Here are four whitespace helpers: `s` in the name means "space", `n` means newline, and capitalization means that the capitalized part is required (contrary to being optional).
 
 {% codeblock %}
-  rule sn
-    sN?
-  end
+rule sn
+  sN?
+end
 
-  rule sN
-    ( ( S "\n" / s comment_to_eol / s "\n" ) s comment_to_eol? )+
-  end
+rule sN
+  ( ( S "\n" / s comment_to_eol / s "\n" ) s comment_to_eol? )+
+end
 
-  rule s
-    S?
-  end
+rule s
+  S?
+end
 
-  rule S
-    [ \t]+
-  end
+rule S
+  [ \t]+
+end
 
-  rule comment_to_eol
-    '#' (!"\n" .)* "\n"
-  end
+rule comment_to_eol
+  '#' (!"\n" .)* "\n"
+end
 {% endcodeblock %}
