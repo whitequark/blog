@@ -3,7 +3,8 @@ layout: post
 title: "Fixing ACPI on Samsung N250"
 date: 2011-09-04 07:42
 comments: true
-categories: 
+categories:
+  - hardware
 ---
 
 In this article I'd like to describe some of the typical BIOS design flaws of a modern netbook, and methods which can be used to locate, dissect and heal the bugs.
