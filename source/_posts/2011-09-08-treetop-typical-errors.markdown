@@ -71,7 +71,7 @@ Sometimes Treetop embeds some AST nodes into another nodes when you do not expec
 {% gist 1201762 ast_quirks.treetop %}
 {% gist 1201762 ast_quirks.rb %}
 
-The `expression` rule may look a bit strange as-is, but it is actually just the last part of more complex code generation rule which included unary and binary operators, and a dozen of simple types in one list at end. If executed, `ast_quirks.rb` will display a thrown exception: <code>(eval):10:in 'to_code': undefined method 'value'</code>. But the method is indeed defined!
+The `expression` rule may look a bit strange as-is, but it is actually just the last part of more complex code generation rule which included unary and binary operators, and a dozen of simple types in one list at end. If executed, `ast_quirks.rb` will display a thrown exception: <code>(eval):10:in 'to_code': undefined method 'to_code'</code>. But the method is indeed defined!
 
 Somehow Treetop embeds the `string` or `number` subtrees into the `expression` tree, losing the attached methods in process. To alter this behavior, a `1..1` repeat specifier may be attached: it does not change the meaning of the rule, but prevents AST squashing.
 
