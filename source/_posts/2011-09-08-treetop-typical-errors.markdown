@@ -111,6 +111,8 @@ This function will show the location of an error in [Clang][] or Java style.
     ~~~~~~~~~~~~~^
 ```
 
+  [clang]: http://clang.llvm.org/
+
 ### String unescaping
 
 This is a modification of string parsing rule described above which adds support for arbitrary escaped characters.
