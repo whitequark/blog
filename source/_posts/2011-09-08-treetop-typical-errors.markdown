@@ -56,12 +56,12 @@ This is incorrect as well. `.`, being greedy (as any other PEG predicate is), wi
 {% codeblock Knows what \"a\\\"b\" is %}
 grammar Example4
   rule string
-    '"' ( !'"' '\"' \ . )* '"'
+    '"' ( '\"' \ !'"' . )* '"'
   end
 end
 {% endcodeblock %}
 
-Note that the negative lookahead predicate stays at its place. It does not belong to either of the variants, but rather to the group itself.
+Note that the negative lookahead predicate has changed its position: it belongs to the broadest `.` predicate.
 
 AST quirks
 ----------
