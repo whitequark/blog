@@ -4,8 +4,8 @@ title: "Tweaking Linux TCP Stack for Lossy Wireless Networks"
 date: 2011-09-12 22:44
 comments: true
 categories:
- - linux
- - network
+  - linux
+  - network
 ---
 
 Public wireless networks are often congested and located in a noisy RF environment. Standard TCP congestion control algorithms work inefficiently in these conditions, leading to frequent timeouts, large <abbr title="Round Trip Time">RTTs</abbr> and poor overall performance. There are some tricks, however, which can be enabled to improve it a lot.

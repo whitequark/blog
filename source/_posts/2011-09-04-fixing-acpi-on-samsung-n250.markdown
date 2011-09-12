@@ -5,6 +5,7 @@ date: 2011-09-04 07:42
 comments: true
 categories:
   - hardware
+  - linux
 ---
 
 In this article I'd like to describe some of the typical BIOS design flaws of a modern netbook, and methods which can be used to locate, dissect and heal the bugs.
