@@ -13,6 +13,8 @@ Public wireless networks are often congested and located in a noisy RF environme
 
 Linux TCP stack may be configured via `sysctl` utility. The TCP options are listed in `man 7 tcp`, and they are located in `net.ipv4` namespace. (Well, technically there is one for IPv6, too, but I haven't seen a single IPv6-enabled public network, ever). So, the option `tcp_foo` may be set to `1` by invoking `sysctl net.ipv4.tcp_foo=1`.
 
+Interestingly, changing the TCP congestion control algorithms did not yield any visible result. On the other hand, changing several other options did.
+
 There are three options worth mentioning. First two are related to [F-RTO][], a recovery algorithm designed specially for wireless networks.
 
 {% codeblock Excerpt from `man 7 tcp' %}
