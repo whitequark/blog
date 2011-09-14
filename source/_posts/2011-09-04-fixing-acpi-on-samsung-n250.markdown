@@ -19,12 +19,11 @@ It consists of a several configuration _tables_, one of which contains code for 
 
 Theoretically, this system should have been made hardware-specific chipset drivers unneccessary. It is quite potent (not to say overblown) and is definitely able to accomplish the task; Macs are a good example, as they use ACPI extensively and correctly.
 
-In reality, however, [x86][]-based hardware vendors would supply buggy and incomplete ACPI tables for their systems, and vendor lock-in appears not as the least reason to me. Therefore, such systems require numerous nontrivial workarounds, often flawed and undocumented. I've attempted to fix the ACPI itself for a particular computer instead.
+In reality, however, PC-based hardware vendors would supply buggy and incomplete ACPI tables for their systems, and vendor lock-in appears not as the least reason to me. Therefore, such systems require numerous nontrivial workarounds, often flawed and undocumented. I've attempted to fix the ACPI itself for a particular computer instead.
 
 The system I have is a Samsung N250+ netbook. It has quite good hardware (except for battery-hungry and quirky Broadcom WLAN card which I have replaced with a better one by Atheros), but the ROM BIOS quality is really poor. At the moment of release there even was no way of enabling the wireless card on a Linux system; its state could be changed via CMOS Setup, through. Now there is a kernel driver, but it uses a fundamentally flawed approach, too (and it has some [usability problems][]).
 
   [acpi]: http://en.wikipedia.org/wiki/ACPI
-  [x86]: http://en.wikipedia.org/wiki/x86
   [usability problems]: http://comments.gmane.org/gmane.linux.drivers.platform.x86.devel/2403
 
 Examining the current state
@@ -40,7 +39,7 @@ Hopefully, in this case SMI calls probably just change a byte or two, and it may
 
 Next, let's take a look at the ACPI tables. There are plenty of them, but we need one called _<abbr title="Differentiated System Description Table">DSDT</a>_—the biggest and most important one which contains handlers for a huge number of possible hardware events.
 
-To dump the tables and rework the code two utilites are required: `acpidump` and `iasl`. On a Debian-based system they can be found in packages with same names. 
+To dump the tables and rework the code two utilites are required: `acpidump` and `iasl`. On a Debian-based system they can be found in packages with same names.
 
 ``` console
     $ sudo acpidump -o dsdt.aml -b
@@ -63,26 +62,26 @@ At an attempt to compile the table back to bytecode (try `make`) without any cha
 Repairing backlight
 -------------------
 
-My netbook has LED backlight, which means that its brightness could be controlled simply by keeping it on for a known part of time, e.g. to dim it by 30% one could keep it on just for 70% of time. To make the flickering invisible, this switching (called [PWM][] is done on a frequency far above the sensitivity level of a human eye—200 kHz is good enough).
+My netbook has LED backlight, which means that its brightness could be controlled simply by keeping it on for a known part of time, e.g. to dim it by 30% one could keep it on just for 70% of time. To make the flickering invisible, this switching (called [PWM][]) is done on a frequency far above the sensitivity level of a human eye—200 kHz is good enough.
 
 In this case, PWM _duty cycle_ is probably controlled by an integrated graphics controller. We can see it on a PCI bus:
 
 ``` console
-    $ lspci 
+    $ lspci
     00:00.0 Host bridge: Intel Corporation N10 Family DMI Bridge
     00:02.0 VGA compatible controller: Intel Corporation N10 Family Integrated Graphics Controller
     00:02.1 Display controller: Intel Corporation N10 Family Integrated Graphics Controller
     <...>
 ```
 
-The numbers `00:02.0` are an address of the device on the bus. With this address, we can inspect and modify the properties of the device, as Linux provides numerous [sysfs][] hooks for that purpose. One of them is an ability to read and write [PCI configuration space][]: a memory block of 256 bytes used to configure a PCI devide. First 64 of them have predefined meaning; other ones can be freely used by device vendor.
+The numbers `00:02.0` are an address of the device on the bus. With this address, we can inspect and modify the properties of the device, as Linux provides numerous [sysfs][] hooks for that purpose. One of them is an ability to read and write [PCI configuration space][]: a memory block of 256 bytes used to configure a PCI device. First 64 of them have predefined meaning; other ones can be freely used by device vendor.
 
 Let's check what changes in the device configuration when we alter backlight level with an SMM-based driver (note that it would be perfectly possible with a closed-source driver or even on Windows: all you need is a tool to scrap the configuration space):
 
 ``` console
-    # echo 7 >/sys/class/backlight/samsung/brightness 
+    # echo 7 >/sys/class/backlight/samsung/brightness
     # hexdump -C /sys/bus/pci/devices/0000\:00\:02.0/config >config-1
-    # echo 5 >/sys/class/backlight/samsung/brightness 
+    # echo 5 >/sys/class/backlight/samsung/brightness
     # hexdump -C /sys/bus/pci/devices/0000\:00\:02.0/config >config-2
     # diff -u config-1 config-2
     --- config-1	2011-09-05 01:06:13.326930250 +0400
@@ -104,7 +103,7 @@ According to [ACPI specification][] (section B.6.2, page 704), a compliant graph
 
 ``` c
     /*  = Query List of Brightness Control Levels Supported =
-     * Returns an array (Package in ACPI terms) which contains 
+     * Returns an array (Package in ACPI terms) which contains
      * supported and preferred backlight levels.
      */
     Method (_BCL, 0, NotSerialized)
@@ -177,13 +176,13 @@ Below that, field definitions are located. The whole `Field` construct represent
 
 {% codeblock lang:diff %}
 @@ -1347,7 +1347,8 @@ Device (IGD0)
-                             Offset (0xB0), 
-                             Offset (0xB1), 
-                     CDVL,   5, 
--                            Offset (0xB2), 
+                             Offset (0xB0),
+                             Offset (0xB1),
+                     CDVL,   5,
+-                            Offset (0xB2),
 +                            Offset (0xB4),
 +                    BLVL,   8,
-                             Offset (0xBC), 
+                             Offset (0xBC),
                      ASLS,   32
                  }
 {% endcodeblock %}
