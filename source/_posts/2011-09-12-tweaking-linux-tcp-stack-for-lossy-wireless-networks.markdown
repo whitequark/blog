@@ -11,6 +11,17 @@ categories:
 Public wireless networks are often congested and located in a noisy RF environment. Standard TCP congestion control algorithms work inefficiently in these conditions, leading to frequent timeouts, large <abbr title="Round Trip Time">RTTs</abbr> and poor overall performance. There are some tricks, however, which can be enabled to improve it a lot.
 <!--more-->
 
+First, there is one simple option which can be changed to get an impressive performance increase. It is the network interface _retry limit_. By default, it is set to a relatively high value of 7:
+
+``` console
+# iwconfig wlan0 | grep Retry
+          Retry  long limit:7   RTS thr:off   Fragment thr:off
+```
+
+Somehow, in a lossy environment this value results in a constantly overflowing packet queue, skyrocketing latency and, at some point, a disconnect. After setting it to 0 (`iwconfig wlan0 retry limit 0`), packet queue will tend to overflow for a much lesser amount of time, and while latency will still probably be high and unstable, it will not grow infinitely anymore.
+
+Per my experience, this change has resulted in latency drop from 10-160s (yes, seconds) to 0-12s (3-5s average), which is indeed a lot, but is manageable.
+
 Linux TCP stack may be configured via `sysctl` utility. The TCP options are listed in `man 7 tcp`, and they are located in `net.ipv4` namespace. (Well, technically there is one for IPv6, too, but I haven't seen a single IPv6-enabled public network, ever). So, the option `tcp_foo` may be set to `1` by invoking `sysctl net.ipv4.tcp_foo=1`.
 
 Interestingly, changing the TCP congestion control algorithms did not yield any visible result. On the other hand, changing several other options did.
