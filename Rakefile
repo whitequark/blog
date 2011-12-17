@@ -7,7 +7,6 @@ require "stringex"
 ssh_user       = "whitequark@kaunan.whitequark.org"
 ssh_port       = "22"
 document_root  = "/var/www/whitequark.org"
-document_root  = "~/website.com/"
 rsync_delete   = true
 deploy_default = "rsync"
 
