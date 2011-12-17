@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Treetop: Typical Errors"
+title: "Treetop: typical errors"
 date: 2011-09-08 00:41
 comments: true
 categories:
@@ -89,10 +89,10 @@ This function will show the location of an error in [Clang][] or Java style.
       if data.respond_to? :read
         data = data.read
       end
-    
+
       parser = ExampleParser.new
       ast = parser.parse data
-      
+
       if ast
         ast.do_something_useful
       else
@@ -151,12 +151,12 @@ end
 ``` console
     $ irb
     ruby-1.9.2-p290 :001 > require 'treetop'
-     => true 
+     => true
     ruby-1.9.2-p290 :002 > Treetop.load 'escaped_string.treetop'
-     => EscapedStringParser 
+     => EscapedStringParser
     ruby-1.9.2-p290 :003 > puts EscapedStringParser.new.parse(%q{"see:\t\t\H"}).fetch
     see:		hello world
-     => nil 
+     => nil
 ```
 
 ### Matching whitespace

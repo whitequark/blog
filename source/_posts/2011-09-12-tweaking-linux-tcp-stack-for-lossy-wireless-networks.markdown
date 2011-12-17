@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tweaking Linux TCP Stack for Lossy Wireless Networks"
+title: "Tweaking Linux TCP stack for lossy wireless networks"
 date: 2011-09-12 22:44
 comments: true
 categories:
