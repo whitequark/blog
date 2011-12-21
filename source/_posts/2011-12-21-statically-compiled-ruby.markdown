@@ -41,7 +41,11 @@ Let's dig deeper into the compilation process.
 Compilation process
 -------------------
 
-First of all, to be able to operate on the AST of entire application we will need a Ruby runtime library which is written only in Ruby (obviously using primitives for basic operations). Currently, there is only one such implementation--Rubinius--so it is natural to implement the compiler on top of it.
+First of all, to be able to operate on the AST of entire application we will need a Ruby runtime library which is
+written only in Ruby (obviously using [primitives] for basic operations). Currently, there is only one such
+implementation--Rubinius--so it is natural to implement the compiler on top of it.
+
+  [primitives]: http://en.wikipedia.org/wiki/Language_primitive
 
 Rubinius provides a lot of methods to inspect its internal state, which will prove to be useful for our purpose. Particularly, it allows one to retrieve bytecode for any executable object.
 
