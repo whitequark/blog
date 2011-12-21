@@ -20,7 +20,11 @@ I have found a way, through, to significantly improve Ruby code performance by r
 <!--more-->
 
 {% pullquote %}
-Strictly speaking, I am placing just a single restriction: {" no method definition at runtime "}. This implies inability to call `load` or `require` after the initial loading process, using `Class.new` or `define_method`, absence of `eval` family functions (even a seemingly simple evaluation of form `1 + 2` is equivalent to definition of an anonymous function), certain operations with singleton classes, nested method definitions (`def a; def b; end; end`) and maybe a few other, lesser used features.
+Strictly speaking, I am placing just a single restriction: {" no method evaluation at runtime "}. This implies inability
+to call `load` or `require` after the initial loading process, using `Class.new` or `define_method`, absence of `eval`
+family functions (even a seemingly simple evaluation of form `1 + 2` is equivalent to definition of an anonymous
+function), certain operations with singleton classes, nested method definitions (`def a; def b; end; end`) and maybe a
+few other, lesser used features.
 {% endpullquote %}
 
 While all of the above may seem like a severe restriction, actually none of those features are commonly used _at runtime_, and, in fact, if they are actually used, that's a sign of bad code. Even on commonly used interpreters this will lead to a huge performance drops due to VM cache invalidation.
