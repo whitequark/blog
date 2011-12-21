@@ -31,10 +31,15 @@ While all of the above may seem like a severe restriction, actually none of thos
 
 Due to the fact that all Ruby definitions are just Ruby code, any compiler is thus required to include a fully capable interpreter. It can be observed that in any typical setting the Ruby application is executed in two stages: at the first one it just loads all the required libraries and defines classes and methods, and at the second stage it simply executes the code while abstaining from defining any methods. The first stage is more complex, as it is a superset of the second.
 
-I propose to execute the definition stage on a full-fledged Ruby interpreter like [Rubinius][], and to generate efficient machine code with [LLVM][] after it is completed. As the method definition (and redefinition) is forbidden now, it is possbile to perform a lot of optimizations, including constant propagation, type inference and method inlining, and compile a fully statical executable. Unfortunately this approach does not allow for Ruby MRI C extension usage, but FFI definitions can compensate that.
+I propose to execute the definition stage on a full-fledged Ruby interpreter like [Rubinius][], and to generate
+efficient machine code with [LLVM][] after it is completed. As the method definition (and redefinition) is forbidden
+now, it is possbile to perform a lot of optimizations, including constant propagation, type inference and method
+inlining, and compile a fully statical executable. Unfortunately this approach does not allow for Ruby MRI C extension
+usage, but [FFI][] can compensate for that.
 
   [Rubinius]: http://rubini.us/
   [LLVM]: http://llvm.org/
+  [FFI]: http://en.wikipedia.org/wiki/Foreign_function_interface
 
 Let's dig deeper into the compilation process.
 
