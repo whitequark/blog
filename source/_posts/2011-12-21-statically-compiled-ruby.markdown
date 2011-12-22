@@ -236,8 +236,8 @@ A solution to this problem will be presented in a future article.
 As it has been mentioned already, Ruby has a lot of metaprogramming methods, most of which, especially the
 introspecting ones, require to keep a lot of data at runtime and sometimes have an impact of performance.
 
-For example, if something is calling `.methods` on an instance of Float, the compiler is required to include method
-lists for the entire ancestor chain for Float, which isn't very large, as symbols are used, and to add all of the
+For example, if something is calling `methods` method of an instance of Float, the compiler is required to include
+method lists for the entire ancestor chain for Float, which isn't very large, as symbols are used, and to add all of the
 method names to the symbol table. The latter would consume 905 bytes (as of MRI 1.9.3), which isn't a big amount for a
 desktop system with gigabytes of RAM, but may eat up a significant part of ROM of a microcontroller.
 
