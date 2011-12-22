@@ -1,0 +1,49 @@
+digraph {
+  compound=true;
+  size="8,!";
+
+  subgraph cluster_add {
+    label="add[x, y](a, b)";
+
+    add_b    [label="b"];
+    add_a    [label="a"];
+    add_plus [label="a.+[y]", shape=box];
+    add_r    [label="result"];
+
+    { rank=same; add_b add_a }
+  }
+
+  subgraph cluster_addi {
+    label="addi[x](world)";
+
+    addi_world [label="world"];
+    addi_to_i  [label="world.to_i", shape=box];
+    addi_five  [label="5", color="/svg/lightblue", style=filled];
+    addi_add   [label="add[Integer, *]", shape=box];
+    addi_r     [label="result"];
+  }
+
+  subgraph cluster_adds {
+    label="adds[x](whimper)";
+
+    adds_whimper [label="whimper"];
+    adds_to_s    [label="whimper.to_s", shape=box];
+    adds_str     [label="\"bang! \"", color="/svg/lightblue", style=filled];
+    adds_add     [label="add[String, *]", shape=box];
+    adds_r       [label="result"];
+  }
+
+  add_b -> add_plus [label="y"];
+  add_a -> add_plus [label="x"];
+  add_plus -> add_r [label="*"];
+
+  addi_world -> addi_to_i [label="x"];
+  addi_to_i -> addi_add [label="*"];
+  addi_five -> addi_add [label="Integer"];
+  addi_add -> addi_r [label="*"];
+
+  adds_whimper -> adds_to_s [label="x"];
+  adds_to_s -> adds_add [label="*"];
+  adds_str -> adds_add [label="String"];
+  adds_add -> adds_r [label="*"];
+}

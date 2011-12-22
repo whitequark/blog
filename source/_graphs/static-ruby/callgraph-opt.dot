@@ -1,0 +1,25 @@
+digraph {
+  rankdir=LR;
+  size="8,!";
+
+  e_addi [label="caller"];
+  addi [label="addi[x]"];
+  e_adds [label="caller"];
+  adds [label="adds[x]"];
+  add_sa [label="add[String, y]"]
+  add_ia [label="add[Integer, y]"]
+
+  e_addi -> addi [label="*"];
+  addi -> e_addi [label="String", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
+  addi -> add_ia [label="String, *"];
+  add_ia -> addi [label="String", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
+
+  e_adds -> adds [label="*"];
+  adds -> e_adds [label="Integer", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
+  adds -> add_sa [label="Integer, *"];
+  add_sa -> adds [label="Integer", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
+
+  { rank=same; e_addi e_adds }
+  { rank=same; addi adds }
+  { rank=same; add_ia add_sa }
+}
