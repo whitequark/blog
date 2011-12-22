@@ -10,12 +10,12 @@ digraph {
 
   e_addi -> addi [label="*"];
   addi -> e_addi [label="*", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
-  addi -> add_aa [label="String, *"];
+  addi -> add_aa [label="Integer, *"];
   add_aa -> addi [label="*", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
 
   e_adds -> adds [label="*"];
   adds -> e_adds [label="*", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
-  adds -> add_aa [label="Integer, *"];
+  adds -> add_aa [label="String, *"];
   add_aa -> adds [label="*", color="/svg/darkgreen", fontcolor="/svg/darkgreen"];
 
   { rank=same; e_addi e_adds }
