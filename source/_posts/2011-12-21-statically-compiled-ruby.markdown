@@ -15,8 +15,8 @@ runtime, even (almost) any of the builtins.
 
 This has a serious drawback, through: evaluating Ruby code is a slow process. Even when you have an expression like `5 +
 2` (which is syntactic sugar for `5.+(2)`), one cannot safely assume that `+` method has not been redefined as something
-completely different. Thus, one is required to follow the generic method lookup procedure, which [isn't trivial at
-all][method lookup] and therefore isn't fast either.
+completely different. Thus, one is required to follow the generic method lookup procedure, which
+[isn't trivial at all][method lookup] and therefore isn't fast either.
 
   [method lookup]: http://mccraigmccraig.files.wordpress.com/2008/10/ruby-eigenclass.png
 
