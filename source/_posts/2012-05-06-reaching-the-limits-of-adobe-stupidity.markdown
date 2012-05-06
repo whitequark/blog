@@ -152,13 +152,13 @@ The compiler will emit a shitload of bytecode (including _two_ catch and _two_ t
    0023             SetLocal2        ; [catch]
    0024             PushScope        ; []
    0025                 Throw        ; I want an object to throw! Ouch!
-   0026              PopScope        ; I want an object to pop! Ouch!
+   0026              PopScope
    0027                  Kill     2
    0029              PushByte    -1
    0031                  Jump   +32  ; Jump to rethrow
 {% endcodeblock %}
 
-As you see, the opcodes at addresses 0025 and 0026 are invalid because they try to pop an object from an empty stack. The virtual machine actually recognizes the `finally` clause _using these invalid opcodes_. Think about it a little longer, and you'll go insane.
+As you see, the opcodes at addresses 0025 and 0026 are invalid because they try to pop an object from an empty stack. The virtual machine actually recognizes the `finally` clause _by encountering these invalid opcodes_. Think about it a little longer, and you'll go insane.
 
 Also, the _recommended_ way to flow control after a `finally` statement is... using `lookupswitch` opcode. The `PushByte -1` is actually a mark for that `lookupswitch` trampoline which makes it jump to a rethrow entry point.
 
