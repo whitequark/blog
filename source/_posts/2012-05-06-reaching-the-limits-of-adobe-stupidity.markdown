@@ -140,9 +140,9 @@ Let's compile this function:
 The compiler will emit a shitload of bytecode (including _two_ catch and _two_ throw statements), but the relevant part is here:
 
 {% codeblock %}
- ; This is an exception handler. Stack is empty upon jump to an
- ; exception handler.
- ; Address          Opcode    Args   Stack state, comments
+; This is an exception handler. Stack is empty upon jump to an
+; exception handler.
+;  Address          Opcode    Args   Stack state, comments
    0016             GetLocal0        ; [local0]
    0017             PushScope        ; []
    0018             GetLocal1        ; [local1]
@@ -158,7 +158,7 @@ The compiler will emit a shitload of bytecode (including _two_ catch and _two_ t
    0031                  Jump   +32  ; Jump to rethrow
 {% endcodeblock %}
 
-As you see, the opcodes at addresses 0025 and 0026 are invalid because they try to pop an object from an empty stack. The virtual machine actually recognizes the `finally` clause _by encountering these invalid opcodes_. Think about it a little longer, and you'll go insane.
+As you see, the opcode at addresses 0025 is invalid because it tries to pop an object from an empty stack. The virtual machine actually recognizes the `finally` clause _by encountering these invalid opcodes_. Think about it a little longer, and you'll go insane.
 
 Also, the _recommended_ way to flow control after a `finally` statement is... using `lookupswitch` opcode. The `PushByte -1` is actually a mark for that `lookupswitch` trampoline which makes it jump to a rethrow entry point.
 
