@@ -61,6 +61,8 @@ propel_switch(5); // bar        bar
 
 (The "actual" results are derived from assembler listings. Tamarin shell refused to execute it due to verification errors.)
 
+**Update:** As one [Reddit commenter](http://www.reddit.com/r/programming/comments/t9qxy/reaching_the_limits_of_adobe_stupidity/c4kxlfn) corrects me, recent versions of ASC no longer have this problem.
+
 No optimization ever
 --------------------
 
