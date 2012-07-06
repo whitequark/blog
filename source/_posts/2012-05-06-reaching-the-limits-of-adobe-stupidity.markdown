@@ -4,6 +4,7 @@ title: "Reaching the Limits of Adobe Stupidity"
 date: 2012-05-06 18:08
 comments: true
 categories:
+ - flash
  - software
  - wtf
 ---
