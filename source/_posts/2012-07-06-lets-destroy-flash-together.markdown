@@ -12,7 +12,7 @@ categories:
 
 Adobe Flash is obsolete. It is a proprietary technology controlled by a single company, it has hundreds of [gaping security holes](http://web.nvd.nist.gov/view/vuln/search-results?query=flash&search_type=all&cves=on), it [drains battery like crazy](http://www.pcworld.com/article/209856/dump_flash_get_2_extra_hours_of_macbook_air_battery_life.html), it is not supported anymore on mobile devices ([Apple](http://www.apple.com/hotnews/thoughts-on-flash/), [Google](http://www.theverge.com/2012/6/29/3125219/flash-mobile-android-4-1-not-supported) and [Microsoft](http://www.macobserver.com/tmo/article/microsoft_outlaws_flash_on_touch-interface_ie_10/)) and [Linux](http://www.omgubuntu.co.uk/2012/02/adobe-adandons-flash-on-linux). Even Adobe themselves think that Flash [should die](http://blogs.adobe.com/conversations/2011/11/flash-focus.html); let's help them to weed the garden!
 
-Quite a few people are still relying on Flash for publishing dynamic content. One of their reasons is, apparently, the possibility of code protection ([1](http://www.beancreative.com/blog/client/index.cfm/2012/3/15/The-peril-of-HTML5-Do-you-really-want-to-share-your-private-proprietary-code-with-the-public), [2](http://weareorganizedchaos.com/index.php/2010/03/18/html5_vs_flash/), [3](http://www.pseudocoder.com/blog/why-html5-video-wont-replace-flash), [4](http://blog.authorstream.com/2012/04/html5-or-flash-which-one-is-better-to.html), etc.) This is plain wrong: there is **no working code protection** in Flash. I'm going to prove this once and for all.
+Quite a few people are still relying on Flash for publishing dynamic content. One of their reasons is, apparently, the possibility of code protection ([1](http://www.beancreative.com/blog/client/index.cfm/2012/3/15/The-peril-of-HTML5-Do-you-really-want-to-share-your-private-proprietary-code-with-the-public), [2](http://weareorganizedchaos.com/index.php/2010/03/18/html5_vs_flash/), [3](http://www.pseudocoder.com/blog/why-html5-video-wont-replace-flash), [4](http://blog.authorstream.com/2012/04/html5-or-flash-which-one-is-better-to.html), etc.) This is plain wrong: there is **no viable code protection** in Flash. I'm going to prove this once and for all.
 
 <!-- more -->
 
@@ -74,8 +74,8 @@ I would prefer to receive .swf files for analysis rather than obfuscators. First
 
 As a single obfuscator might be using various protection techniques, it would be helpful to get several different samples; even more so if it has different protection levels.
 
-Of course, you should not send me copyrighted .swf's or do anything similarly illegal. I respect the laws of the country I live in.
+Of course, you should not send me copyrighted .swf's or do anything similarly illegal.
 
-I won't accept any legacy ActionScript 2 submissions. I don't have analysis infrastructure for that format, and it's not worth developing anyway, as it was deprecated long time ago.
+I won't accept any legacy ActionScript 2 submissions. I don't have analysis infrastructure for that format, and it's not worth developing anyway, as it was deprecated long time ago and isn't used much these days.
 
 {% img center /images/destroy-flash/trash.png %}
