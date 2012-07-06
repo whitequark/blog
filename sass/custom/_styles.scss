@@ -12,3 +12,15 @@ article header {
     top: -0.8em;
   }
 }
+
+.image-link {
+  padding-left: 28px;
+  background: no-repeat 6px center;
+
+  &.rxr {
+    background-image: url(/images/rxr.png);
+  }
+  &.github {
+    background-image: url(/images/github.png);
+  }
+}

@@ -18,7 +18,7 @@ This has a serious drawback, through: evaluating Ruby code is a slow process. Ev
 completely different. Thus, one is required to follow the generic method lookup procedure, which
 [isn't trivial at all][method lookup] and therefore isn't fast either.
 
-  [method lookup]: http://mccraigmccraig.files.wordpress.com/2008/10/ruby-eigenclass.png
+  [method lookup]: /images/static-ruby/ruby-eigenclass.png
 
 I have found a way, through, to significantly improve Ruby code performance by restricting just a few of its
 metaprogramming capabilities.
