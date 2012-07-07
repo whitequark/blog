@@ -16,6 +16,8 @@ Quite a few people are still relying on Flash for publishing dynamic content. On
 
 <!-- more -->
 
+**Update**: There seems to be a misunderstanding. I'm talking about Flash Player here; if you use AIR or any other toolkit to produce desktop/mobile application, I don't care which framework do you use. Just make it fast and integrate good with underlying OS.
+
 The Problem
 -----------
 
