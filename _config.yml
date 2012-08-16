@@ -64,11 +64,11 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
-twitter_tweet_count: 0
+twitter_user: whitequark
+twitter_tweet_count: 3
 twitter_show_replies: false
-twitter_follow_button: false
-twitter_show_follower_count: false
+twitter_follow_button: true
+twitter_show_follower_count: true
 twitter_tweet_button: true
 
 # Google +1

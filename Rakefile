@@ -4,7 +4,7 @@ require "stringex"
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
-ssh_user       = "whitequark@kaunan.whitequark.org"
+ssh_user       = "whitequark@fehu.whitequark.org"
 ssh_port       = "22"
 document_root  = "/var/www/whitequark.org"
 rsync_delete   = true
