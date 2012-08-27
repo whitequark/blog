@@ -56,7 +56,7 @@ This is incorrect as well. `.`, being greedy (as any other PEG predicate is), wi
 {% codeblock Knows what \"a\\\"b\" is %}
 grammar Example4
   rule string
-    '"' ( '\"' \ !'"' . )* '"'
+    '"' ( '\"' / !'"' . )* '"'
   end
 end
 {% endcodeblock %}
