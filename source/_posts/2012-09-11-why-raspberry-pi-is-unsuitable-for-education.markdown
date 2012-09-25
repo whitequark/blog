@@ -40,30 +40,36 @@ This has actually [happened before](http://opencores.org/articles,1004822682). {
 Open Door to Heaven
 -------------------
 
+**Update**: the paragraphs below have mentioned MIPS as a royalty-free architecture. It is actually not (e.g. [patent list](http://www.mips.com/company/about-us/patent-portfolio/)), so I've swapped it to LM32, which is.
+
 There is actually a decent amount of more or less open architectures.
 
 {% pullquote %}
-[MIPS][] was developed at universities to be used both at classes and factories, and it still has some visible traction. It's royalty-free and {" anyone can create their MIPS core and then share or manufacture it "}. There is a lot of existing MIPS-based processor manufacturers ([Ingenic][], [Broadcom](http://www.broadcom.com/products/brands/MIPS) etc.) in the likely case that you don't want to make your processor from scratch.
+[LatticeMico32][] is a 32-bit softcore from [Lattice Semiconductor][]. It's royalty-free and {" anyone can create their LM32 core and then share or manufacture it "}. Quite a bit of software already supports LM32, including gcc, uCLinux, several real-time operating systems, and more.
 {% endpullquote %}
 
-To speak about open hardware, there's a thingy called [Ben NanoNote][] based on a MIPS processor. It's as open as possible and _somewhat_ usable, but very significantly lacks in hardware compared even to Raspberry Pi.
+To speak about open hardware, there's a device called [Milkymist One][] based on an FPGA with an embedded LM32 processor. It's as open as possible and is actually used in production (as opposed to mere hacking) to create some nice video effects.
 
-[OpenRISC][] is quite good and has decent toolchain and Linux support, but I'm not aware of any mass-produced silicon implementations of it.
+[OpenRISC][] is quite good and has decent toolchain and Linux support, but I'm not aware of any mass-produced silicon implementations of it, or just production usage.
 
-[OpenSPARC][] is an awesome CPU, but it's a bit on heavyweight side of engineering. I'm not completely sure if an off-the-shelf embedded option is available, but I think it is.
+[OpenSPARC][] is an awesome CPU, but it's a bit on heavyweight side of engineering. I'm not completely sure if an off-the-shelf embedded option is available, but I think there is.
 
-MIPS is not patented (it may have proprietary implementations, but the architecture itself is free), and both OpenRISC and OpenSPARC are distributed under GNU GPL. The first and the last architecture could be used within Raspberry Pi, with MIPS being the easiest to implement.
+Every architecture of LatticeMico32, OpenRISC and OpenSPARC are distributed under GNU GPL. Unfortunately, the cost of including an FPGA or an ASIC would be prohibitive given the pricing policy of Raspberry Pi. This concern aside, a LatticeMico32 core could work very well as the CPU for Pi, and provide way more educational value.
 
 {% pullquote left %}
 To speak about all things open, {" not everyone in the industry behaves like ARM "}. [Atmel][], the author of AVR architecture, didn't release it as open source, but they always supplied complete documentation without strange legal clauses and never bothered to destroy their relations with hobbyists. AVR softcores are available in abundance ([an unnamed one](http://opencores.org/project,avr_core), [navre](http://opencores.org/project,navre), etc).
 {% endpullquote %}
 
-  [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture
+[Altera][], an FPGA vendor, also distributes a royalty-free MIPS softcore called [MP32](http://www.alterawiki.com/wiki/MP32_%28MIPS%29_Soft_Core_Embedded_Processor), and MIPS Technologies never bothered to take down any of the FOSS implementations (e.g. [YARI](http://sourceforge.net/projects/fpgayari/)). While not truly free, the MIPS cores can be used in production right now, as vendors of MIPS SoCs are in abundance. A completely open-source handheld computer [Ben NanoNote][] was developed around on a MIPS SoC, too.
+
+  [LatticeMico32]: http://en.wikipedia.org/wiki/LatticeMico32
+  [Lattice Semiconductor]: http://www.latticesemi.com/products/intellectualproperty/ipcores/mico32/index.cfm
   [OpenRISC]: http://en.wikipedia.org/wiki/OpenRISC
   [OpenSPARC]: http://en.wikipedia.org/wiki/OpenSPARC
-  [Ben NanoNote]: http://en.qi-hardware.com/wiki/Ben_NanoNote
-  [Ingenic]: http://en.wikipedia.org/wiki/Ingenic_Semiconductor
+  [Milkymist One]: http://milkymist.org/3/
   [Atmel]: http://atmel.com/
+  [Altera]: http://www.altera.com/
+  [Ben NanoNote]: http://en.qi-hardware.com/wiki/Ben_NanoNote
 
 The Complete Picture
 --------------------
@@ -88,7 +94,9 @@ With advent of [GPGPU][] and with various devices consisting mainly of giant scr
 
   [GPGPU]: http://en.wikipedia.org/wiki/GPGPU
 
-Not only the GPU-related documentation or source code is nonexistent, but the datasheet for the SoC is available only as a [stripped down PDF](http://www.raspberrypi.org/faqs) which doesn't include enough information to boot the processor with your own code. Schematics for the Pi is not available either, and I see precisely no reasons for not distributing it openly. Raspberry Pi has nothing to do with open hardware.
+**Update**: The paragraph below previously stated that the schematics were not available. This was an editing error.
+
+Not only the GPU-related documentation or source code is nonexistent, but the datasheet for the SoC is available only as a [stripped down PDF](http://www.raspberrypi.org/faqs) which doesn't include enough information to boot the processor with your own code. While schematics are available, board layout for the Pi is not, and I see precisely no reasons for not distributing it openly. Raspberry Pi has nothing to do with open hardware.
 
 Talking To the World
 --------------------
@@ -128,6 +136,6 @@ Unfortunately, at the present moment there are no open-source software solutions
 
 If you are looking to develop truly open hardware, take a look at [Milkymist One](http://milkymist.org/3/). It isn't cheap, but is worth way more than its cost.
 
-If you are looking for a more sane alternative to Pi, consider buying [Texas Instruments Beagle Board](http://en.wikipedia.org/wiki/Beagle_Board) or [Samsung ODROID-X](http://www.hardkernel.com/renewal_2011/products/prdt_info.php?g_code=G133999328931). Both vendors have released complete documentation for the SoC (except for the graphics processor, see more on that below), and are generally more friendly to open-source community than Broadcom.
+If you are looking for a more sane alternative to Pi, consider buying [Texas Instruments Beagle Board](http://en.wikipedia.org/wiki/Beagle_Board) or [Samsung ODROID-X](http://www.hardkernel.com/renewal_2011/products/prdt_info.php?g_code=G133999328931). Both vendors have released complete documentation for the SoC (except for the graphics processor, described above), and are generally more friendly to open-source community than Broadcom.
 
 Beagle Board has a bigger price tag, but don't forget that they include all required accessories, extensive documentation, complete schematics and layout released under a Creative Commons license, an ability to plug in Arduino without frying the critter and a way to run your own code without third-party proprietary binaries. It is an example of excellent open-source hardware which perfectly fits educational needs.
