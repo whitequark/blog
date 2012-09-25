@@ -113,7 +113,7 @@ Raspberry Pi indeed [supports](http://elinux.org/images/thumb/2/2a/GPIOs.png/254
   [rpi-gpio]: http://elinux.org/RPi_Low-level_peripherals#General_Purpose_Input.2FOutput_.28GPIO.29
 
 {% pullquote %}
-The Pi contains just a few GPIO pins, seventeen to be precise. The solution to accidental over-voltage and over-current is simply adding a 200 Ohm resistor and a diode to each of the supplied pins. This is not expensive, nor does these components occupy a significant amount of PCB surface. The parts aren't expensive; without even trying to optimize cost, I could add 9x of these [diodes](http://www.digikey.com/product-detail/en/BAV70LT3G/BAV70LT3GOSCT-ND/2704938) and 3x of these [resistor arrays](http://www.digikey.com/product-detail/en/EXB-2HV221JV/Y1221TR-ND/285311). That'd be {" 30 cents per device for making it much more unbreakable and interoperable "}. Does that sound like a good thing for an educational device?
+The Pi contains just a few GPIO pins, seventeen to be precise. The solution to accidental over-voltage and over-current is simply adding a 200 Ohm resistor and a diode to each of the supplied pins. This is not expensive, nor do these components occupy a significant amount of PCB surface. The parts aren't expensive; without even trying to optimize cost, I could add 9x of these [diodes](http://www.digikey.com/product-detail/en/BAV70LT3G/BAV70LT3GOSCT-ND/2704938) and 3x of these [resistor arrays](http://www.digikey.com/product-detail/en/EXB-2HV221JV/Y1221TR-ND/285311). That'd be {" 30 cents per device for making it much more unbreakable and interoperable "}. Does that sound like a good thing for an educational device?
 {% endpullquote %}
 
 A Black Sheep In the Family
