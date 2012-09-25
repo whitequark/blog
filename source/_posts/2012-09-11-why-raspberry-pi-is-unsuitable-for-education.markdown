@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why Raspberry Pi is unsuitable for education"
-date: 2012-09-11 05:31
+date: 2012-09-25 08:21
 comments: true
 categories:
  - hardware
@@ -83,7 +83,7 @@ It's even worse on Raspberry Pi. The Pi has a OpenGL-capable graphics processing
 3D acceleration drivers are just mockery. Not only they will only ever work for X and Android because that's what Broadcom wants to sell them for, but they're also completely closed-source even on the Linux part. The open-source kernel "driver" is basically a stub which does not perform anything except message passing between proprietary OpenGL driver and a proprietary GPU firmware.
 
 {% pullquote left %}
-With advent of [GPGPU][] and with various devices consisting mainly of giant screens increasingly filling our lives, {" learning to program GPUs has never been more important "}! Now, why did the creators of Raspberry Pi forbid its users from this knowledge?
+With advent of [GPGPU][] and with various devices consisting mainly of giant screens increasingly filling our lives, {" learning to program GPUs has never been more important "}!
 {% endpullquote %}
 
   [GPGPU]: http://en.wikipedia.org/wiki/GPGPU
