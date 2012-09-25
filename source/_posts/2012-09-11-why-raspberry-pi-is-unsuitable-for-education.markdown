@@ -54,7 +54,7 @@ To speak about open hardware, there's a device called [Milkymist One][] based on
 
 [OpenSPARC][] is an awesome CPU, but it's a bit on heavyweight side of engineering. I'm not completely sure if an off-the-shelf embedded option is available, but I think there is.
 
-Every architecture of LatticeMico32, OpenRISC and OpenSPARC are distributed under GNU GPL. Unfortunately, the cost of including an FPGA or an ASIC would be prohibitive given the pricing policy of Raspberry Pi. This concern aside, a LatticeMico32 core could work very well as the CPU for Pi, and provide way more educational value.
+OpenRISC and OpenSPARC IP cores are distributed under GNU GPL, and LatticeMico32 uses a more permissive license. Unfortunately, the cost of including an FPGA or an ASIC would be prohibitive given the pricing policy of Raspberry Pi. This concern aside, a LatticeMico32 core could work very well as the CPU for Pi, and provide way more educational value.
 
 {% pullquote left %}
 To speak about all things open, {" not everyone in the industry behaves like ARM "}. [Atmel][], the author of AVR architecture, didn't release it as open source, but they always supplied complete documentation without strange legal clauses and never bothered to destroy their relations with hobbyists. AVR softcores are available in abundance ([an unnamed one](http://opencores.org/project,avr_core), [navre](http://opencores.org/project,navre), etc).
