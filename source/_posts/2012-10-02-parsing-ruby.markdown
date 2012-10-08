@@ -4,6 +4,8 @@ title: "Parsing Ruby"
 date: 2012-10-02 04:39
 comments: true
 categories:
+ - ruby
+ - software
 ---
 
 Suppose you need to parse a chunk of Ruby code (and by Ruby I obviously mean Ruby 1.9). What options do you have?
