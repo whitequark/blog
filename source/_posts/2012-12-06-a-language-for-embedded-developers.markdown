@@ -501,7 +501,6 @@ Why are you posting this now?
 
 Because, as I've stated before, programming languages is a very wide topic, and
 so is embedded development. It is better to figure out where am I wrong earlier
-than to trip on that later. Feedback is very welcome, both positive and negative;
-please, spread the word!
+than to trip on that later. Feedback is very welcome, both positive and negative.
 
 **Thank you for reading.**
