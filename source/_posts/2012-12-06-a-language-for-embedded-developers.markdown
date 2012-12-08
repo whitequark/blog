@@ -156,8 +156,8 @@ class Class
   end
 
   def attr_accessor(attribute)
-    attr_reader   attribute
-    attr_accessor attribute
+    attr_reader attribute
+    attr_writer attribute
   end
 end
 ```
@@ -268,9 +268,11 @@ Quite a few.
 ### Arbitrary precision integers
 
 `char`? `unsigned long`? That's too many identifiers to remember. Integer types
-are instantiated as simply as `Int32 = Integer.reify(32, :signed)` or
-`UInt16 = Integer.reify(16, :unsigned)`. Yes, if your DSP has only 24-bit and
+are instantiated (or [reified][]) as simply as `Int32 = Integer.reify(32, :signed)`
+or `UInt16 = Integer.reify(16, :unsigned)`. Yes, if your DSP has only 24-bit and
 36-bit registers, arithmetics will be just as optimal as 32-bit on common ARMs.
+
+  [reified]: http://en.wikipedia.org/wiki/Reification_(computer_science)
 
 ### Generic containers
 
@@ -474,6 +476,10 @@ class Array
   end
 end
 ```
+
+Overall, the compilation process can be described as using Ruby as a
+domain-specific language to define semantics of a Ruby dialect, which itself
+is translated to efficient machine code.
 
 Can I try it?
 -------------
