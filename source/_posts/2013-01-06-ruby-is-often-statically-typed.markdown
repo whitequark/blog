@@ -217,7 +217,9 @@ programming languages (looking at you, Go and Rust{% fn_ref 8 %}).
 
 So, I aimed to demonstrate that Ruby already has bits of static typing baked in,
 that it doesn't require endless streams of declarations, and that it can help
-the compiler and the programmer alike.
+the compiler and the programmer alike. Even better, type annotations can fit
+perfectly in Ruby's semantics and improve it instead of being too verbose and
+cumbersome to maintain.
 
 ### Footnotes
 
