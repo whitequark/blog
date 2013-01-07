@@ -103,7 +103,7 @@ end
 
 ... and have the exact same accessor methods to be defined automatically.
 
-Let's look closer at the example. What does `attr_reader :name` in the context
+Let's look closer at the example. What does `attr_reader "name"` in the context
 of `class Microcontroller` mean? It means that a message named `attr_reader`
 is sent to the class `Microcontroller`, which is itself an object, and is an
 instance of class `Class`. We can handle that message!
@@ -413,7 +413,7 @@ Pretty much like plain Ruby, but method definitions are sometimes annotated with
 types:
 
 ``` ruby
-def sum(Array[Fixnum] numbers): Fixnum
+def sum(Array[Fixnum] numbers) => Fixnum
   result = 0
 
   numbers.each do |number|
