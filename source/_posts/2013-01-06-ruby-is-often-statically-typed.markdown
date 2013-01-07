@@ -213,7 +213,7 @@ and semantics based on those of Ruby, but featuring runtime static typing and
 compile time metaprogramming, a concept not commonly found in new systems
 programming languages (looking at you, Go and Rust{% fn_ref 8 %}).
 
-  [embprog]: http://localhost:4000/blog/2012/12/06/a-language-for-embedded-developers/
+  [embprog]: http://whitequark.org/blog/2012/12/06/a-language-for-embedded-developers/
 
 So, I aimed to demonstrate that Ruby already has bits of static typing baked in,
 that it doesn't require endless streams of declarations, and that it can help
