@@ -24,6 +24,9 @@ article header {
   &.github {
     background-image: url(/images/github.png);
   }
+  &.irclog {
+    background-image: url(/images/irclog.png);
+  }
 }
 
 @import "footnotes";
