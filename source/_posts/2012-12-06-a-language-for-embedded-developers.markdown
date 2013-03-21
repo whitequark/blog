@@ -4,8 +4,9 @@ title: "A language for embedded developers"
 date: 2012-12-06 14:44
 comments: true
 categories:
- - software
- - ruby
+  - software
+  - ruby
+  - foundry
 ---
 
 I am currently working on a dialect of Ruby well-suited for programing embedded

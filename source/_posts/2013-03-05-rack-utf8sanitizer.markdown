@@ -4,8 +4,8 @@ title: "Rack::UTF8Sanitizer"
 date: 2013-03-05 16:18
 comments: true
 categories:
- - software
- - ruby
+  - software
+  - ruby
 ---
 
 Do you have a bunch of these errors in your [Airbrake](http://airbrake.io), [Honeybadger](http://honeybadger.io), Ratch... er, [Rollbar](http://rollbar.com) or whatever's the trending error reporting app?
