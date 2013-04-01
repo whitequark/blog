@@ -15,6 +15,8 @@ _The following is a translation of a [single chapter](http://i.loveruby.net/ja/r
 
 _I'm very grateful to my employer [Evil Martians](http://evl.ms), who sponsored the work, and [Nikolay Konovalenko](mailto:nlkonovalenko@gmail.com), who put more effort in this translation than I could ever wish for. Without them, I would be still figuring out what `COND_LEXPOP()` actually does._
 
+<!--more-->
+
 ## Chapter 11 Finite-state scanner
 
 ### Outline
