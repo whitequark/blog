@@ -1582,7 +1582,7 @@ EXPR_ARG              ";"  ';'                  EXPR_BEG
 EXPR_BEG     C       "\n"  '                    EXPR_BEG
 ```
 
-When the first terminal symbol of the first parameter has been read, CMDARG_P()` is true. Therefore, the complete answer would be:
+When the first terminal symbol of the first parameter has been read, `CMDARG_P()` is true. Therefore, the complete answer would be:
 
 From the first terminal symbol of the first parameter of a method call with parentheses omitted
 To the terminal symbol following the final parameter
