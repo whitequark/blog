@@ -524,7 +524,7 @@ First, `id[1]` is a symbol to deal with modifiers. For example, in case of `if` 
 When a reserved word does not have a modifier equivalent, `id[0]` and `id[1]` contain the same things.
 
 Because `state` is `enum lex_state` it is the state to which a transition should occur after the reserved word is read.
-Below is a list created in the `kwstat.rb` tool which I made. The tool can be found on the CD\footnote{`kwstat`:添付CD-ROMの`tools/kwstat.rb`}
+Below is a list created in the `kwstat.rb` tool which I made. The tool can be found on the CD.
 
 ``` text
 % kwstat.rb ruby/keywords
