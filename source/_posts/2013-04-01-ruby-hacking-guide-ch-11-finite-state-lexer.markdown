@@ -1180,7 +1180,7 @@ EXPR_END             "\n"  \n                   EXPR_BEG
 
 The three big branching lines show the state transition caused by `yylex()`. On the left is the state before `yylex()` The middle two are the word text and its symbols. Finally, on the right is the `lex_state` after `yylex()`
 
-The problem here are parts of single lines that come out as `+EXPR_ENDARG`. This indicates a transition occurring during parser action. According to this, for some reason an action is executed after reading the `')'` a transition to `EXPR_ENDARG` occurs and `'{'` is nicely changed into `tLBRACE_ARG` This is actually a pretty high-level technique – indiscriminately (ab)using the LALR(1) up to the (1).
+The problem here are parts of single lines that come out as `+EXPR_ENDARG`. This indicates a transition occurring during parser action. According to this, for some reason an action is executed after reading the `')'` a transition to `EXPR_ENDARG` occurs and `'{'` is nicely changed into `tLBRACE_ARG` This is actually a pretty high-level technique – indiscriminately (ab)using _[活用\逆用 :)]_ the LALR(1) up to the (1).
 
 ##### Abusing the lookahead
 
