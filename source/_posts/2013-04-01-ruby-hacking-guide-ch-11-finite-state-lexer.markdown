@@ -126,7 +126,7 @@ Look at which state it transitions from and which token causes it. For example, 
 Let us take `EXPR_BEG` as an example.
 In Ruby, all state transitions are expressed as assignments to `lex_state`, so first we need to grep `EXPR_BEG` assignments to find them. Then we need to export their location, for example, such as `'#'` and `'*'` and `'!'` of `yylex()` Then we need to recall the state prior to the transition and consider which case suits best (see image 1)
 
-{% img center /images/rhg-c11/ch_contextual_transittobeg.jpg "Transition to `EXPR_BEG`" %}
+{% img center /images/rhg-c11/ch_contextual_transittobeg.jpg Transition to `EXPR_BEG` %}
 
 This does indeed look like the head of statement. Especially the `'\n'` and the `';'` The open parentheses and the comma also suggest that it’s the head not just of the statement, but of the expression as well.
 
@@ -732,7 +732,7 @@ From this we can derive the following general rules
 
 With this, you should see how to use it. If you think about it for a minute, the name `cond_stack` itself is clearly the name for a macro that determines whether or not it’s on the same level as the conditional expression (see image 2)
 
-{% img center /images/rhg-c11/ch_contextual_condp.jpg "Changes of `COND_P()`" %}
+{% img center /images/rhg-c11/ch_contextual_condp.jpg Changes of `COND_P()` %}
 
 Using this trick should also make situations like the one shown below easy to deal with.
 
@@ -891,7 +891,7 @@ primary      : tLPAREN compstmt ')'        /* Normal expression parenthesis */
 
 Now I need you to focus on `method_call` and `command_call` If you leave the `'('` without introducing `tLPAREN_ARG`, then `command_args` will produce `args`, `args` will produce `arg`, `arg` will produce `primary`. Then, `'('` will appear from `tLPAREN_ARG` and conflict with `method_call` (see image 3)
 
-{% img center /images/rhg-c11/ch_contextual_trees.jpg "`method_call` and `command_call`" %}
+{% img center /images/rhg-c11/ch_contextual_trees.jpg `method_call` and `command_call` %}
 
 #### The case of two parameters and more
 
