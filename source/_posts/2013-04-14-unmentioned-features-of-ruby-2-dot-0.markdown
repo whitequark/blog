@@ -9,7 +9,9 @@ categories:
   - insanity
 ---
 
-It has been a while since the release of Ruby 2.0, and a lot of comprehensive guides to the new 2.0 features were written. However, I feel that some of them are still left in obscurity. The justice must be served.
+It has been a while since the release of Ruby 2.0, and a lot of comprehensive guides to the new 2.0 features were written. However, I feel that some of them are still left in obscurity. The justice shall be served.
+
+<!--more-->
 
 ## All constants now support ||= and &&=
 
