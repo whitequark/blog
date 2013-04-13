@@ -101,7 +101,7 @@ nil
 
 If you want to use this, you should consult your assigned therapist. What do you mean you don't have one? Well, you will need assistance anyway after you finish reading this post.
 
-## Block argument declarations can now span multiple lines
+## Shadowing block variable declarations can now span multiple lines
 
 Ruby 1.9:
 ```
