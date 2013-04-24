@@ -11,7 +11,7 @@ categories:
 Suppose you need to parse a chunk of Ruby code (and by Ruby I obviously mean Ruby 1.9). What options do you have?
 <!--more-->
 
-**Update:** as of 2012-11-08, I don't use the present Melbourne fork anymore, as RubyParser has advanced steadily and now can handle everything I want. See also [this github issue](https://github.com/seattlerb/ruby_parser/issues/62); the post is preserved as-is for historical reasons.
+**Update:** just use my gem [parser](http://github.com/whitequark/parser).
 
 I want to rip it, rip it
 ------------------------
