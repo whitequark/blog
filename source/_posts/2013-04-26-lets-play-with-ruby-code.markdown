@@ -22,6 +22,7 @@ All of the above, and without accidentally breaking code structure and unrelated
 Parser is a gem for parsing Ruby code which I wrote. Unlike most other Ruby parsers, it keeps precise location information for all nodes:
 
 ``` ruby
+$ gem install parser
 $ ruby-parse -L -e 'if foo then bar end'
 (if
   (send nil :foo)
