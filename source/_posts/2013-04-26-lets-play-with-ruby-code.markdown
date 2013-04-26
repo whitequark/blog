@@ -21,7 +21,7 @@ All of the above, and without accidentally breaking code structure and unrelated
 
 Parser is a gem for parsing Ruby code which I wrote. Unlike most other Ruby parsers, it keeps precise location information for all nodes:
 
-``` ruby
+```
 $ gem install parser
 $ ruby-parse -L -e 'if foo then bar end'
 (if
@@ -50,7 +50,7 @@ Parser also supports rewriting: non-intrusively (with regard to formatting) modi
 
 Let's start with an example: aligning equality signs. First, how does the AST look like?
 
-``` ruby
+```
 $ ruby-parse -e $'@definition = defn\nsource = "foo"\nunrelated(:method_call)'
 (begin
   (ivasgn :@definition
@@ -63,7 +63,7 @@ $ ruby-parse -e $'@definition = defn\nsource = "foo"\nunrelated(:method_call)'
 
 So, we're looking for several consecutive assignment nodes inside a grouping `(begin)` node. How do we locate the equality sign?
 
-``` ruby
+```
 $ ruby-parse -L -e $'@definition = defn'
 (ivasgn :@definition
   (send nil :defn))
@@ -118,7 +118,7 @@ end
 
 So... does it work?
 
-``` ruby
+```
 $ ruby-rewrite --load align_eq -e $'@definition = defn\nsource = "foo"\nunrelated(:method_call)'
 @definition = defn
 source      = "foo"
@@ -157,7 +157,7 @@ end
 
 Does it work?
 
-``` ruby
+```
 $ ruby-rewrite --load undo.rb -e $'if foo then\n  bar\nend'
 if foo
   bar
@@ -173,7 +173,7 @@ end
 
 But what if I feed it something _insideous_? Will it start acting _evil_ and break my code? \*maniacal laughter\*
 
-``` ruby
+```
 $ ./bin/ruby-rewrite --load undo.rb -e $'if foo then bar; baz end'
 ASTs do not match:
 --- (fragment:0)
