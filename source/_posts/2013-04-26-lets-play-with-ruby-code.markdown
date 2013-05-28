@@ -171,7 +171,7 @@ if foo
 end
 ```
 
-But what if I feed it something _insideous_? Will it start acting _evil_ and break my code? \*maniacal laughter\*
+But what if I feed it something _insidious_? Will it start acting _evil_ and break my code? \*maniacal laughter\*
 
 ```
 $ ./bin/ruby-rewrite --load undo.rb -e $'if foo then bar; baz end'
