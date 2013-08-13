@@ -626,8 +626,8 @@ When `foo` at the last line is invoked, several interesting things
 happen.
 
   1. `foo` does not exist in CompatibilityShim, so it gets routed
-     to method_missing. `method` gets bound to "foo", and `args'
-     are bound to [#<subject>, #<context>, "hello"].
+     to method_missing. `method` gets bound to `"foo"`, and `args`
+     are bound to `[#<subject>, #<context>, "hello"]`.
 
   2. `Logger.log` is called. Note the quasiquoted string and the
      presence of `args`; quasiquoted strings imply a conversion by
