@@ -496,7 +496,7 @@ So, what is there to do? In Ruby, on the symbol level (that is, on the scanner l
 4188                              return kDO_BLOCK;
 4189                          return kDO;
 4190                      }
-4191                      if (state == EXPR_BEG)  /*** ここ ***/
+4191                      if (state == EXPR_BEG)  /*** Here ***/
 4192                          return kw->id[0];
 4193                      else {
 4194                          if (kw->id[0] != kw->id[1])
