@@ -107,7 +107,7 @@ What one should do is think toward specific goals: “This part is needed to sol
 
 However, there still needs to be an overreaching objective. When reading a finite-state scanner, that objective would undoubtedly be to understand every state. For example, what kind of state is `EXPR_BEG`? It is a state where the parser is at the head of the expression.
 
-#####The static approach
+##### The static approach
 
 So, how can we understand what a state does? There are three basic approaches
 
@@ -128,13 +128,20 @@ In Ruby, all state transitions are expressed as assignments to `lex_state`, so f
 
 {% img center /images/rhg-c11/ch_contextual_transittobeg.jpg Transition to `EXPR_BEG` %}
 
+{% inset Errata %}
+<ol>
+<li>Actually when the state is <code>EXPR_DOT</code>, the state after reading a <code>tIDENTIFIER</code> would be either <code>ARG</code> or <code>CMDARG</code> However, because the author wanted to roughly group them as <code>FNAME/DOT</code> and the others here, these two are shown together. Therefore, to be precise, <code>EXPR_FNAME/DOT</code> and <code>EXPR_DOT</code> should have also been separated.</li>
+<li><code>')'</code> does not cause the transition from "everything else" to <code>EXPR_BEG</code>.</li>
+</ol>
+{% endinset %}
+
 This does indeed look like the head of statement. Especially the `'\n'` and the `';'` The open parentheses and the comma also suggest that it’s the head not just of the statement, but of the expression as well.
 
 ##### The dynamic approach
 
 There are other easy methods to observe the functioning. For example, you can use a debugger to “hook” the `yylex()` and look at the `lex_state`
 
-Another way is to rewrite the source code to output state transitions. In the case of `lex_state` we only have numerical patterns for assignment and comparison, so the solution would be to treat them as text patterns and rewrite the code to output state transitions. The CD that comes with this book contains the `rubylex-analyser` tool. When necessary, I will refer to it in this text.
+Another way is to rewrite the source code to output state transitions. In the case of `lex_state` we only have a few patterns for assignment and comparison, so the solution would be to grasp them as text patterns and rewrite the code to output state transitions. The CD that comes with this book contains the `rubylex-analyser` tool. When necessary, I will refer to it in this text.
 
 The overall process looks like this: use a debugger or the aforementioned tool to observe the functioning of the program. Then look at the source code to confirm the acquired data and use it.
 
@@ -165,7 +172,7 @@ For more information, see the section “The `do` conflict”
 
 * `EXPR_END`
 
-Used when there is a possibility that the statement is terminal. For example, after a literal or brackets. Except for cases when `EXPR_ENDARG` is used
+Used when there is a possibility that the statement is terminal. For example, after a literal or a closing parenthesis. Except for cases when `EXPR_ENDARG` is used
 
 * `EXPR_ENDARG`
 
@@ -174,13 +181,13 @@ Refer to the section “First parameter enclosed in parentheses”
 
 * `EXPR_FNAME`
 
-Comes before the method name, usually after `def`, `alias`, `undef` or the symbol `':'` In an independent position <code>`</code> is the method name.
+Comes before the method name, usually after `def`, `alias`, `undef` or the symbol `':'` A single <code>`</code> can be a name.
 
 * `EXPR_DOT`
 
 Comes after the dot in a method call. Handled similarly to `EXPR_FNAME`
 Various reserved words are treated as simple identifiers.
-In an independent position <code>'`'</code> is the name.
+A single <code>'`'</code> can be a name.
 
 * `EXPR_CLASS`
 
@@ -685,6 +692,10 @@ MSB←   →LSB
 ...0000000010         COND_LEXPOP()
 ```
 
+{% inset Errata %}
+It leaves <code>COND_P()</code> only when it is 1. When <code>COND_P()</code> is 0 and the second bottom bit is 1, it would become 1 after doing <code>LEXPOP</code>, thus <code>COND_P()</code> is not left in this case.
+{% endinset %}
+
 Now I will explain what that means.
 
 ##### Investigating the function
@@ -728,7 +739,7 @@ From this we can derive the following general rules
 * At the start of a conditional expression `PUSH(1)`
 * At opening parenthesis `PUSH(0)`
 * At the end of a conditional expression `POP()`
-* At closing parenthesis`LEXPOP()`
+* At closing parenthesis `LEXPOP()`
 
 With this, you should see how to use it. If you think about it for a minute, the name `cond_stack` itself is clearly the name for a macro that determines whether or not it’s on the same level as the conditional expression (see image 2)
 
@@ -1182,7 +1193,7 @@ EXPR_END             "\n"  \n                   EXPR_BEG
 
 The three big branching lines show the state transition caused by `yylex()`. On the left is the state before `yylex()` The middle two are the word text and its symbols. Finally, on the right is the `lex_state` after `yylex()`
 
-The problem here are parts of single lines that come out as `+EXPR_ENDARG`. This indicates a transition occurring during parser action. According to this, for some reason an action is executed after reading the `')'` a transition to `EXPR_ENDARG` occurs and `'{'` is nicely changed into `tLBRACE_ARG` This is actually a pretty high-level technique – indiscriminately (ab)using _[活用\逆用 :)]_ the LALR(1) up to the (1).
+The problem here are parts of single lines that come out as `+EXPR_ENDARG`. This indicates a transition occurring during parser action. According to this, for some reason an action is executed after reading the `')'` a transition to `EXPR_ENDARG` occurs and `'{'` is nicely changed into `tLBRACE_ARG` This is actually a pretty high-level technique – generously (ab)using _[活用\逆用 :)]_ the LALR(1) up to the (1).
 
 ##### Abusing the lookahead
 
@@ -1339,6 +1350,14 @@ Since we’re dealing with `do` here, we should look in the part of `yylex()` th
 This time we only need the part that distinguishes between `kDO_BLOCK` and `kDO`. Ignore `kDO_COND` Only look at what’s always relevant in a finite-state scanner.
 
 The decision-making part using `EXPR_ENDARG` is the same as  `tLBRACE_ARG` so priorities shouldn’t be an issue here. Similarly to `'{'` the right course of action is probably to make it `kDO_BLOCK`
+
+{% inset Errata %}
+In the following case, priorities should have an influence. (But it does not in the actual code. It means this is a bug.)
+
+<pre>m m (a) { ... } # This should be interpreted as m(m(a) {...}),
+                # but is interpreted as m(m(a)) {...}
+m m (a) do ... end # as the same as this: m(m(a)) do ... end</pre>
+{% endinset %}
 
 The problem lies with `CMDARG_P()` and `EXPR_CMDARG`. Let’s look at both.
 
@@ -1501,6 +1520,10 @@ m(m _
 m m _
 ```
 
+{% inset Errata %}
+The third one <code>m m _</code> is not <code>EXPR_CMDARG</code>. (It is <code>EXPR_ARG</code>.)
+{% endinset %}
+
 ##### Conclusion
 
 Let us now return to the `do` decision code.
@@ -1607,6 +1630,10 @@ I didn’t spend so much time doing something meaningless just to fill up more p
 Hopefully, this will teach you the importance of dynamic analysis. When investigating something, focus on what really happens. The source code will not tell you everything. It can’t tell anything other than what the reader infers.
 
 And with this very useful sermon, I close the chapter.
+
+{% inset Errata %}
+This confidently written conclusion was wrong. Without <code>EXPR_CMDARG</code>, for instance, this program <code>m (m do end)</code> cannot be parsed. This is an example of the fact that correctness is not proved even if dynamic analyses are done so many times.
+{% endinset %}
 
 ##### Still not the end
 

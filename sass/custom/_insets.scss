@@ -1,0 +1,35 @@
+.inset {
+  ul, ol {
+    margin-left: 1.3em;
+  }
+
+  background: $base03 $noise-bg;
+  border-top: 2px solid darken($base03, 4);
+  border-bottom: 2px solid darken($base03, 4);
+
+  margin-bottom: 0.5em;
+  padding-top: 0.5em;
+
+  margin-left: -$pad-min;
+  margin-right: -$pad-min;
+  padding-left: $pad-min;
+  padding-right: $pad-min;
+  @media only screen and (min-width: 480px) {
+    margin-left: -$pad-narrow;
+    margin-right: -$pad-narrow;
+    padding-left: $pad-narrow;
+    padding-right: $pad-narrow;
+  }
+  @media only screen and (min-width: 768px) {
+    margin-left: -$pad-medium;
+    margin-right: -$pad-medium;
+    padding-left: $pad-medium;
+    padding-right: $pad-medium;
+  }
+  @media only screen and (min-width: 992px) {
+    margin-left: -$pad-wide;
+    margin-right: -$pad-wide;
+    padding-left: $pad-wide;
+    padding-right: $pad-wide;
+  }
+}
