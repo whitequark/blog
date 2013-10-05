@@ -31,14 +31,14 @@ if foo then bar end
 ~~ keyword      ~~~ end
        ~~~~ begin
 ~~~~~~~~~~~~~~~~~~~ expression
-(send nil :bar)
-if foo then bar end
-            ~~~ selector
-            ~~~ expression
 (send nil :foo)
 if foo then bar end
    ~~~ selector
    ~~~ expression
+(send nil :bar)
+if foo then bar end
+            ~~~ selector
+            ~~~ expression
 ```
 
 It also parses all Ruby code in existence by supporting 1.8, 1.9, 2.0 and upcoming 2.1 syntax, and is written in pure Ruby.
@@ -77,7 +77,7 @@ $ ruby-parse -L -e $'@definition = defn'
               ~~~~ expression
 ```
 
-The sign is located by the `operator` field of the source map; if `node` is an [AST::Node](http://whitequark.github.io/ast/frames#!AST/Node), then `node.src.operator` would refer to the [Parser::Source::Range](http://rdoc.info/github/whitequark/parser/master/frames#!Parser/Source/Range) for the `=` sign.
+The sign is located by the `operator` field of the source map; if `node` is an [AST::Node](http://whitequark.github.io/ast/frames#!AST/Node), then `node.loc.operator` would refer to the [Parser::Source::Range](http://rdoc.info/github/whitequark/parser/master/frames#!Parser/Source/Range) for the `=` sign.
 
 The AST format has a [reference](http://rdoc.info/github/whitequark/parser/master/frames#!file/doc/AST_FORMAT.md), but it's often faster to just try it out and look at the output of `ruby-parse`.
 
@@ -104,12 +104,12 @@ class AlignEq < Parser::Rewriter
 
   def align(eq_nodes)
     aligned_column = eq_nodes.
-      map { |node| node.src.operator.column }.
+      map { |node| node.loc.operator.column }.
       max
 
     eq_nodes.each do |node|
-      if (column = node.src.operator.column) < aligned_column
-        insert_before node.src.operator, ' ' * (aligned_column - column)
+      if (column = node.loc.operator.column) < aligned_column
+        insert_before node.loc.operator, ' ' * (aligned_column - column)
       end
     end
   end
@@ -119,7 +119,7 @@ end
 So... does it work?
 
 ```
-$ ruby-rewrite --load align_eq -e $'@definition = defn\nsource = "foo"\nunrelated(:method_call)'
+$ ruby-rewrite --load align_eq.rb -e $'@definition = defn\nsource = "foo"\nunrelated(:method_call)'
 @definition = defn
 source      = "foo"
 unrelated(:method_call)
@@ -148,8 +148,8 @@ class Undo < Parser::Rewriter
   end
 
   def remove_delimiter(node, delimiter)
-    if node.src.begin && node.src.begin.is?(delimiter)
-      remove node.src.begin
+    if node.loc.begin && node.loc.begin.is?(delimiter)
+      remove node.loc.begin
     end
   end
 end
@@ -174,7 +174,7 @@ end
 But what if I feed it something _insidious_? Will it start acting _evil_ and break my code? \*maniacal laughter\*
 
 ```
-$ ./bin/ruby-rewrite --load undo.rb -e $'if foo then bar; baz end'
+$ ruby-rewrite --load undo.rb -e $'if foo then bar; baz end'
 ASTs do not match:
 --- (fragment:0)
 +++ (fragment:0)|after Undo
@@ -191,4 +191,4 @@ ASTs do not match:
 
 Nope! Feel safe out there, and explore the possibilities: they are endless.
 
-(Oh, and if you're curious and want to fix the `Undo` rewriter: here, you'll need this: `bodies.compact.none? { |body| body.src.line == condition.src.line }`. I'll leave it as a homework.)
+(Oh, and if you're curious and want to fix the `Undo` rewriter: here, you'll need this: `bodies.compact.none? { |body| body.loc.line == condition.loc.line }`. I'll leave it as homework.)
