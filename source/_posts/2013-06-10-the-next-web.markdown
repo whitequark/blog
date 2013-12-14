@@ -43,7 +43,7 @@ Both virtual memory based sandboxes and virtualization based sandboxes are widel
 
 Each website receives an OpenGL ES context, which it can use to draw its user interface. OpenGL ES is a widely supported variant of OpenGL; it can be used to provide support for both PCs and mobile devices.
 
-Existing environments gradually shift towards rendering their UI with OpenGL; some examples include Android (version 4 or later), Wayland, Mir, Windows (with Aero enabled). This enhances battery life for mobile devices (GPUs are ubiquitous and even a simplistic GPU is much more efficient at manipulating high-resolution graphics than a CPU), UI responsiveness (important for touch-controlled devices), reduces platform dependency (no need to implement distinct backends for X11, GDI, Quartz, etc.), and, again, allows for composition (OpenGL contexts can be arbitrarily nested).
+Existing environments gradually shift towards rendering their UI with GPU-based compositing; some examples include Android (version 4 or later), Wayland, Mir, Windows (with Aero enabled) and OS X (Quartz). This enhances battery life for mobile devices (GPUs are ubiquitous and even a simplistic GPU is much more efficient at manipulating high-resolution graphics than a CPU), UI responsiveness (important for touch-controlled devices), reduces platform dependency (no need to implement distinct backends for X11, GDI, Quartz, etc.), and, again, allows for composition (OpenGL contexts can be arbitrarily nested).
 
 For legacy platforms which do not support any kind of OpenGL, an emulated solution can be provided, such as LLVMpipe. It is also possible to translate OpenGL calls to a different interface, such as DirectX, using existing open-source solutions.
 
