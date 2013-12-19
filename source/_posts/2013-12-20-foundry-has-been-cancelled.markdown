@@ -7,8 +7,8 @@ categories:
   - software
 ---
 
-It has been exactly two years since I started working on Foundry, and I wrote [some][f1] [nice][f2]
-[things][f3], including prototypes of both the language and the compiler, but today I'm cancelling
+Two years ago on this day I started working on Foundry, and I wrote [some][f1] [nice][f2]
+[things][f3], including prototypes of both the language and the compiler. Today I'm cancelling
 the project.
 
 The reason is simple and technical. The idea behind Foundry was to take the convenience Ruby offers,
