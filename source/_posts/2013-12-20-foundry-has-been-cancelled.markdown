@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Foundry has been cancelled"
-date: 2013-12-20 03:14
+date: 2013-12-21 01:44
 comments: true
 categories:
   - software
 ---
 
-Two years ago on this day I started working on Foundry, and I wrote [some][f1] [nice][f2]
+Two years ago on this day I started working on Foundry, and I developed [some][f1] [nice][f2]
 [things][f3], including prototypes of both the language and the compiler. Today I'm cancelling
 the project.
 
