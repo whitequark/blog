@@ -6,7 +6,7 @@ require "stringex"
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
 ssh_user       = "whitequark@fehu.whitequark.org"
 ssh_port       = "22"
-document_root  = "/var/www/draft.whitequark.org"
+document_root  = "/var/www/whitequark.org"
 rsync_delete   = true
 rsync_args     = ""  # Any extra arguments to pass to rsync
 deploy_default = "rsync"
