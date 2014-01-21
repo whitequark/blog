@@ -56,7 +56,7 @@ Liquid::Template.register_tag('inset', Jekyll::Inset)
   border-top: 2px solid darken($base03, 4);
   border-bottom: 2px solid darken($base03, 4);
 
-  margin-bottom: 0.5em;
+  margin-bottom: 1.5em;
   padding-top: 1.5em;
 
   margin-left: -$pad-min;
