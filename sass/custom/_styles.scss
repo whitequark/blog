@@ -29,5 +29,13 @@ article header {
   }
 }
 
+.clear-both {
+  clear: both;
+}
+
+.bg-white {
+  background: white;
+}
+
 @import "footnotes";
 @import "insets";
