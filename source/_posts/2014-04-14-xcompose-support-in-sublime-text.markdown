@@ -173,8 +173,8 @@ quit
 
 On a high level, the script does four things:
 
-  1. Sublime Text forks at startup, so the script has a little funny dance to attach
-     gdb to the correct process.
+  1. Sublime Text forks at startup, so the script has to do a little funny dance
+     to attach gdb to the correct process.
   2. Then, it stops at the point in the initialization sequence where my Sublime Text
      build calls [gtk_im_context_set_client_window][], and captures the `window`
      and `multicontext` variables, which the compiler happened to leave around in
