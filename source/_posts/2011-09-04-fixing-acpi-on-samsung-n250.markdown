@@ -17,7 +17,7 @@ Introduction
 First of all, [ACPI][] is a generic management interface which controls a lot of hardware functions on modern computers ranging from power and battery control to detecting external displays.
 It consists of a several configuration _tables_, one of which contains code for a virtual machine to be executed by an operating system kernel. The latter was added to make the system as flexible as possible.
 
-Theoretically, this system should have made hardware-specific chipset drivers unneccesary. It is quite potent (not to say overblown) and is definitely able to accomplish the task; Macs are a good example, as they use ACPI extensively and correctly.
+Theoretically, this system should have made hardware-specific chipset drivers unnecessary. It is quite potent (not to say overblown) and is definitely able to accomplish the task; Macs are a good example, as they use ACPI extensively and correctly.
 
 In reality, however, PC-based hardware vendors would supply buggy and incomplete ACPI tables for their systems, and vendor lock-in appears not as the least reason to me. Therefore, such systems require numerous nontrivial workarounds, often flawed and undocumented. I've attempted to fix the ACPI itself for a particular computer instead.
 
