@@ -16,7 +16,7 @@ What to do? If Sublime Text was open-source, I'd make a patch. But it is not.
 However, I still made a patch.
 
 If you just want XCompose to work, then add the [sublime-imethod-fix PPA][ppa]
-to your APT sources, install the `libsublime_text-xim-xcompose` package,
+to your APT sources, install the `libsublime-text-3-xim-xcompose` package,
 and restart Sublime Text. (That's it!) Or, [build from source][gh] if you're not
 on Ubuntu.
 
