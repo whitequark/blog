@@ -284,7 +284,7 @@ If you are writing an extension, you'll find this material useful:
     Do note that not all of them are always updated to the latest extension
     points API.
 
-Other than the OCaml sources, I've found Alain Frisch's two articles ([1][lexifi1], [2][lexifi1])
+Other than the OCaml sources, I've found Alain Frisch's two articles ([1][lexifi1], [2][lexifi2])
 on the topic extremely helpful. I only mention them now because they're quite outdated.
 
 [lexifi1]: http://www.lexifi.com/blog/syntax-extensions-without-camlp4
