@@ -214,21 +214,21 @@ open Location
 let getenv s = try Sys.getenv s with Not_found -> ""
 
 let getenv_mapper argv =
-  let expr mapper expr =
-    match expr with
-    (* Is this a constructor? *)
-    | {pexp_desc = Pexp_construct (
-       (* Should have unqualified name "GETENV". *)
-       {txt = Lident "GETENV"},
-       (* Should have a single argument, which is a constant string. *)
-       Some {pexp_loc = loc; pexp_desc = Pexp_constant (Const_string (sym, None))} )} ->
-        (* Replace with a constant string with the value from the environment. *)
-        Exp.constant ~loc (Const_string (getenv sym, None))
-    (* Delegate to the default mapper. *)
-    | x -> default_mapper.expr mapper x
-  in
   (* Our getenv_mapper only overrides the handling of expressions in the default mapper. *)
-  { default_mapper with expr; }
+  { default_mapper with
+    expr = fun mapper expr ->
+      match expr with
+      (* Is this a constructor? *)
+      | {pexp_desc = Pexp_construct (
+         (* Should have unqualified name "GETENV". *)
+         {txt = Lident "GETENV"},
+         (* Should have a single argument, which is a constant string. *)
+         Some {pexp_loc = loc; pexp_desc = Pexp_constant (Const_string (sym, None))} )} ->
+          (* Replace with a constant string with the value from the environment. *)
+          Exp.constant ~loc (Const_string (getenv sym, None))
+      (* Delegate to the default mapper. *)
+      | x -> default_mapper.expr mapper x;
+  }
 
 let () = run_main getenv_mapper
 {% endcodeblock %}
