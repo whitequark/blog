@@ -43,8 +43,8 @@ What is Camlp4?
 At its core, camlp4 (P4 stands for Pre-Processor-Pretty-Printer) is a parsing library
 which provides extensible grammars. That is, it makes possible to define a parser
 and then, later, make a derived parser by adding a few rules to the original one.
-That camlp4 can handle OCaml syntax (two OCaml syntaxes, in fact, the original
-one and a [revised][p4r] one introduced specifically for camlp4) is just a special case.
+The OCaml syntax (two OCaml syntaxes, in fact, the original one and a [revised][p4r]
+one introduced specifically for camlp4) is just a special case.
 
 [p4r]: http://caml.inria.fr/pub/docs/manual-camlp4/manual007.html
 
@@ -109,6 +109,14 @@ The extension points API is much simpler:
     For example, one could implement a syntax extension what would accept
     a _let_ binding of form `let%lwt (x, y) = f in x + y` and translate them to
     `Lwt.bind f (fun (x, y) -> x + y)`.
+
+  * To make it possible to insert fragments of code written in entirely unrelated
+    syntax into OCaml code, the OCaml syntax is enriched with _quoted strings_.
+
+    Quoted strings are simply strings delimited with `{<delim>|` and `|<delim>}`,
+    where `<delim>` is a (possibly empty) sequence of lowercase letters. They
+    behave just like regular OCaml strings, except that syntactic extensions
+    may extract the delimiter.
 
 [pa_lwt]: http://ocsigen.org/lwt/api/Pa_lwt
 
@@ -249,6 +257,11 @@ I was going to write a section describing packaging syntax extensions with [find
 and [OASIS][], but it turns out that neither supports them yet and, at least in case
 of findlib, it requires modifications to the source code.
 
+Note that it is possible to use ocamlfind for locating the syntax extension with
+`ocamlfind ppx_my_precious/my_precious`, where `ppx_my_precious` is the package name,
+and `my_precious` is an executable installed in the root of that package (next to `META`).
+You would still need to set up the buildsystem rules to do so by yourself.
+
 [oasis]: http://oasis.forge.ocamlcore.org/
 
 Conclusion
@@ -260,8 +273,21 @@ use it.
 References
 ----------
 
+If you are writing an extension, you'll find this material useful:
+
+  * [Asttypes][] and [Parsetree][] modules for writing matchers over the AST;
+  * [Ast_helper][] for generating code;
+  * [Ast_mapper][] for hooking into the mapper;
+  * [extension_points.txt][] for a more thorough high-level description of
+    the newly introduced syntax;
+  * [experimental/frisch][] directory in general for a set of useful examples.
+    Do note that not all of them are always updated to the latest extension
+    points API.
+
 Other than the OCaml sources, I've found Alain Frisch's two articles ([1][lexifi1], [2][lexifi1])
 on the topic extremely helpful. I only mention them now because they're quite outdated.
 
 [lexifi1]: http://www.lexifi.com/blog/syntax-extensions-without-camlp4
 [lexifi2]: http://www.lexifi.com/blog/syntax-extensions-without-camlp4-lets-do-it
+[extension_points.txt]: http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/frisch/extension_points.txt?view=log
+[experimental/frisch]: http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/frisch/
