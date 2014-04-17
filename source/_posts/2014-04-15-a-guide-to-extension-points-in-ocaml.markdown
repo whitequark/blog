@@ -2,6 +2,7 @@
 layout: post
 title: "A guide to extension points in OCaml"
 date: 2014-04-16 03:53 UTC+4
+updated: 2014-04-17 03:24 UTC+4
 comments: true
 categories:
   - software
@@ -24,17 +25,19 @@ In this article, I will explain how to amend OCaml's syntax using the extension 
 
 Note that the features I describe in this article are so bleeding edge, it'll need
 constant transfusions just to stay alive. The last transfusion, er, update, happened
-on 2014-04-16.
+on 2014-04-17.
 
-In order to use the extension points API, you'll need a trunk compiler. In order to
-achieve anything useful, you would (oh, the irony) need a working camlp4 over the
-trunk compiler, which does not exist yet. So for the time being, extension points remain
-largely academic.
+**Update 2014-04-17**: Camlp4 now works. Describe extension nodes properly.
+Make example more idiomatic. Add the section on packaging.
 
-You can install the trunk compiler with `opam`:
+In order to use the extension points API, you'll need a trunk compiler. As it already
+is not shipped with camlp4, you will need to install camlp4 separately. This all
+can be done with `opam`:
 
 ```
 opam switch reinstall 4.02.0dev+trunk
+opam remote add jpdeplaix git://github.com/jpdeplaix/opam-overlay
+opam install camlp4 ocamlfind oasis
 ```
 
 What is Camlp4?
@@ -58,15 +61,19 @@ There are a lot of problems with this approach:
   * It is confusing to users. Camlp4 preprocessors can define almost any imaginable syntax,
     so unless one is also familiar with all the preprocessors used, it is not in general
     possible to understand the source.
+
   * It is confusing to tools, for much the same reason. For example, [Merlin][] has
     [no plans][merlin-p4] to support camlp4 in general, and has implemented a workaround
     for few selected extensions, e.g. [pa_ounit][].
+
   * Writing camlp4 extensions is hard. It requires learning a new (revised) syntax and
     a complex, scarcely documented API (try `module M = Camlp4;;` in utop--the signature
     is 16255 lines long. Yes, sixteen thousand.)
+
   * It is not well-suited for type-driven code generation, which is probably the most
     common use case for syntax extensions, because it is hard to make different camlp4
     extensions cooperate; [type_conv][] was required to enable this functionality.
+
   * Last but not the least, using camlp4 prevents OCaml compiler from printing useful
     suggestions in error messages like `File "ifdef.ml", line 17: This '(' might be unmatched`.
     Personally, I find that very annoying.
@@ -98,11 +105,13 @@ The extension points API is much simpler:
     type declarations of form `type t = A [@id 1] | B [@id 4] of int [@@id_of]` and
     generate a function mapping a value of type `t` to its integer representation.
 
-  * To make syntax extensions useful for implementing custom control flow
-    (like [pa_lwt][]), the OCaml syntax is enriched with _extension nodes_.
+  * To make syntax extensions useful for implementing custom syntactic constructs,
+    especially for control flow (like [pa_lwt][]), the OCaml syntax is
+    enriched with _extension nodes_.
 
     Extension nodes designate a custom, incompatible variant of an existing syntactic
-    construct. They're only available for expression constructs: `fun`, `let`, `if` and so on.
+    construct. They're only available for expression constructs: `fun`, `let`, `if` and
+    so on. When the OCaml compiler encounters an extension node, it signals an error.
 
     Extension nodes have the same payloads as attributes.
 
@@ -178,32 +187,35 @@ val default_mapper : mapper
 Example
 -------
 
-Let's assemble it all together to make a simple extension that replaces `GETENV "<var>"`
+Let's assemble it all together to make a simple extension that replaces `[%getenv "<var>"]`
 with the compile-time contents of the variable `<var>`.
 
-First, let's take a look at the AST that `GETENV "<var>"` would parse to. To do this,
+First, let's take a look at the AST that `[%getenv "<var>"]` would parse to. To do this,
 invoke the OCaml compiler as `ocamlc -dparsetree foo.ml`:
 
 {% codeblock lang:ocaml %}
-let _ = GETENV "USER"
+let _ = [%getenv "USER"]
 {% endcodeblock %}
 
 {% codeblock lang:text %}
 [
-  structure_item (test.ml[1,0+0]..[1,0+21])
+  structure_item (test.ml[1,0+0]..[1,0+24])
     Pstr_eval
-    expression (test.ml[1,0+8]..[1,0+21])
-      Pexp_construct "GETENV" (test.ml[1,0+8]..[1,0+14])
-      Some
-        expression (test.ml[1,0+15]..[1,0+21])
-          Pexp_constant Const_string("USER",None)
+    expression (test.ml[1,0+8]..[1,0+24])
+      Pexp_extension "getenv"
+      [
+        structure_item (test.ml[1,0+17]..[1,0+23])
+          Pstr_eval
+          expression (test.ml[1,0+17]..[1,0+23])
+            Pexp_constant Const_string("USER",None)
+      ]
 ]
 {% endcodeblock %}
 
 As you can see, the grammar category we need is "expression", so we need to
 override the `expr` field of the `default_mapper`:
 
-{% codeblock lang:ocaml %}
+{% codeblock ppx_getenv.ml lang:ocaml %}
 open Ast_mapper
 open Ast_helper
 open Asttypes
@@ -218,14 +230,18 @@ let getenv_mapper argv =
   { default_mapper with
     expr = fun mapper expr ->
       match expr with
-      (* Is this a constructor? *)
-      | {pexp_desc = Pexp_construct (
-         (* Should have unqualified name "GETENV". *)
-         {txt = Lident "GETENV"},
-         (* Should have a single argument, which is a constant string. *)
-         Some {pexp_loc = loc; pexp_desc = Pexp_constant (Const_string (sym, None))} )} ->
-          (* Replace with a constant string with the value from the environment. *)
-          Exp.constant ~loc (Const_string (getenv sym, None))
+      (* Is this an extension node? *)
+      | { pexp_desc =
+          Pexp_extension (
+          (* Should have name "getenv". *)
+          { txt = "getenv" },
+          (* Should have a single structure item, which is evaluation of a constant string. *)
+          PStr [{ pstr_desc =
+                  Pstr_eval ({ pexp_loc  = loc;
+                               pexp_desc =
+                               Pexp_constant (Const_string (sym, None))}, _)}] )} ->
+        (* Replace with a constant string with the value from the environment. *)
+        Exp.constant ~loc (Const_string (getenv sym, None))
       (* Delegate to the default mapper. *)
       | x -> default_mapper.expr mapper x;
   }
@@ -253,22 +269,67 @@ let _ = "whitequark"
 Packaging
 ---------
 
-I was going to write a section describing packaging syntax extensions with [findlib][]
-and [OASIS][], but it turns out that neither supports them yet and, at least in case
-of findlib, it requires modifications to the source code.
+When your extension is ready, it's convenient to build and test it with [OASIS][],
+and distribute via [opam][]. This is not hard, but has a few gotchas.
 
-Note that it is possible to use ocamlfind for locating the syntax extension with
-`ocamlfind ppx_my_precious/my_precious`, where `ppx_my_precious` is the package name,
-and `my_precious` is an executable installed in the root of that package (next to `META`).
-You would still need to set up the buildsystem rules to do so by yourself.
+The OASIS configuration I suggest is simple:
+
+{% codeblock _oasis %}
+# (header...)
+OCamlVersion: >= 4.02
+
+Executable ppx_getenv
+  Path:           lib
+  BuildDepends:   compiler-libs.common
+  MainIs:         ppx_getenv.ml
+  CompiledObject: byte
+
+Executable test_ppx_getenv
+  Build$:         flag(tests)
+  Install:        false
+  Path:           lib_test
+  MainIs:         test_ppx_getenv.ml
+  BuildTools:     ppx_getenv
+  BuildDepends:   oUnit (>= 2)
+  CompiledObject: byte
+  ByteOpt:        -ppx lib/ppx_getenv.byte
+
+Test test_ppx_getenv
+  Command:        $test_ppx_getenv
+{% endcodeblock %}
+
+You may have noticed that I used `CompiledObject: byte` for our extension instead
+`CompiledObject: best`. This is to work around a drawback in OASIS, which makes it
+impossible to substitute the actual name of the extension executable in the `ByteOpt:`
+field lower, or specify different field values depending on the value of `$is_native`.
+
+The basic opam package can be generated with [oasis2opam][]; however, it currently
+produces incorrect syntax for the `ocaml-version` field. Replace it with
+`ocaml-version: [ >= "4.02" ]`.
+
+After installing, the extension executable will be placed into `~/.opam/<version>/bin`.
+
+It is currently not possible to engage the syntax extension via findlib at all.
+To use it in applications, the following `myocamlbuild.ml` rule will work:
+
+{% codeblock myocamlbuild.ml lang:ocaml %}
+dispatch begin
+  function
+  | After_rules ->
+    flag ["ocaml"; "compile"; "use_ppx_getenv"] (S[A"-ppx"; A"ppx_getenv"]);
+  | _ -> ()
+end
+{% endcodeblock %}
 
 [oasis]: http://oasis.forge.ocamlcore.org/
+[oasis2opam]: https://github.com/ocaml/oasis2opam
 
 Conclusion
 ----------
 
-The extension points API is really nice, but it's a long road before you can actually
-use it.
+The extension points API is really nice, but it's not as usable yet as it could be.
+Nevertheless, it's possible to create and use extension packages without too much
+ugly workarounds.
 
 References
 ----------
@@ -282,7 +343,8 @@ If you are writing an extension, you'll find this material useful:
     the newly introduced syntax;
   * [experimental/frisch][] directory in general for a set of useful examples.
     Do note that not all of them are always updated to the latest extension
-    points API.
+    points API;
+  * [ocaml-ppx_getenv][] repository contains example code from this article.
 
 Other than the OCaml sources, I've found Alain Frisch's two articles ([1][lexifi1], [2][lexifi2])
 on the topic extremely helpful. I only mention them now because they're quite outdated.
@@ -291,3 +353,4 @@ on the topic extremely helpful. I only mention them now because they're quite ou
 [lexifi2]: http://www.lexifi.com/blog/syntax-extensions-without-camlp4-lets-do-it
 [extension_points.txt]: http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/frisch/extension_points.txt?view=log
 [experimental/frisch]: http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/frisch/
+[ocaml-ppx_getenv]: https://github.com/whitequark/ocaml-ppx_getenv
