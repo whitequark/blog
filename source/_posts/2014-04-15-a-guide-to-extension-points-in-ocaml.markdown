@@ -321,6 +321,7 @@ dispatch begin
 end
 {% endcodeblock %}
 
+[opam]: https://opam.ocaml.org
 [oasis]: http://oasis.forge.ocamlcore.org/
 [oasis2opam]: https://github.com/ocaml/oasis2opam
 
