@@ -303,9 +303,7 @@ You may have noticed that I used `CompiledObject: byte` for our extension instea
 impossible to substitute the actual name of the extension executable in the `ByteOpt:`
 field lower, or specify different field values depending on the value of `$is_native`.
 
-The basic opam package can be generated with [oasis2opam][]; however, it currently
-produces incorrect syntax for the `ocaml-version` field. Replace it with
-`ocaml-version: [ >= "4.02" ]`.
+The basic opam package can be generated with [oasis2opam][].
 
 After installing, the extension executable will be placed into `~/.opam/<version>/bin`.
 
