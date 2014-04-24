@@ -37,5 +37,9 @@ article header {
   background: white;
 }
 
+#comments_disabled {
+  font-style: italic;
+}
+
 @import "footnotes";
 @import "insets";

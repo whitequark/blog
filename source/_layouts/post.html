@@ -31,6 +31,11 @@ single: true
     <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
   </section>
 {% endif %}
+{% if page.comments == false %}
+  <section>
+    <div id="comments_disabled">I will be happy to listen to your thoughts over at <a href="mailto:whitequark@whitequark.org">whitequark@whitequark.org</a>.</div>
+  </section>
+{% endif %}
 </div>
 {% unless page.sidebar == false %}
 <aside class="sidebar">
