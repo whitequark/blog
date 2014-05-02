@@ -282,26 +282,14 @@ Executable ppx_getenv
   Path:           lib
   BuildDepends:   compiler-libs.common
   MainIs:         ppx_getenv.ml
-  CompiledObject: byte
+  CompiledObject: best
 
-Executable test_ppx_getenv
-  Build$:         flag(tests)
-  Install:        false
-  Path:           lib_test
-  MainIs:         test_ppx_getenv.ml
-  BuildTools:     ppx_getenv
-  BuildDepends:   oUnit (>= 2)
-  CompiledObject: byte
-  ByteOpt:        -ppx lib/ppx_getenv.byte
-
-Test test_ppx_getenv
-  Command:        $test_ppx_getenv
+Test test_ppx_protobuf
+  Command:        ocamlbuild -I lib -package oUnit  \
+                             -cflags '-ppx $ppx_getenv' \
+                             lib_test/test_ppx_getenv.byte --
+  TestTools:      ppx_getenv
 {% endcodeblock %}
-
-You may have noticed that I used `CompiledObject: byte` for our extension instead
-`CompiledObject: best`. This is to work around a drawback in OASIS, which makes it
-impossible to substitute the actual name of the extension executable in the `ByteOpt:`
-field lower, or specify different field values depending on the value of `$is_native`.
 
 The basic opam package can be generated with [oasis2opam][].
 
