@@ -87,8 +87,9 @@ flow:
 Some notes on this design:
 
   1. Technically, performing a conditional GET requires sending an HTTP/1.1 request,
-     but Nginx is only able to talk HTTP/1.0 to the backends. This doesn't seem to
-     be a problem in practice.
+     <s>but Nginx is only able to talk HTTP/1.0 to the backends. This doesn't seem to
+     be a problem in practice.</s> and you can make Nginx send HTTP/1.1 requests
+     to the backend using [proxy_http_version][].
   2. Ideally, specifying `max-age=0` in `Cache-Control` would instruct the cache
      to store and always revalidate the response, but Nginx doesn't cache it at all
      instead. HTTP specification [permits][max-age] both behaviors.
@@ -99,3 +100,4 @@ Some notes on this design:
 [amplifr]: http://amplifr.com
 [conditional get]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.3
 [max-age]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.3
+[proxy_http_version]: http://nginx.org/ru/docs/http/ngx_http_proxy_module.html#proxy_http_version
