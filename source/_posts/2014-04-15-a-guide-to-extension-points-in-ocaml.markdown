@@ -25,10 +25,7 @@ In this article, I will explain how to amend OCaml's syntax using the extension 
 
 Note that the features I describe in this article are so bleeding edge, it'll need
 constant transfusions just to stay alive. The last transfusion, er, update, happened
-on 2014-04-17.
-
-**Update 2014-04-17**: Camlp4 now works. Describe extension nodes properly.
-Make example more idiomatic. Add the section on packaging.
+on 2014-05-07.
 
 In order to use the extension points API, you'll need a trunk compiler. As it already
 is not shipped with camlp4, you will need to install camlp4 separately. This all
@@ -36,7 +33,6 @@ can be done with `opam`:
 
 ```
 opam switch reinstall 4.02.0dev+trunk
-opam remote add jpdeplaix git://github.com/jpdeplaix/opam-overlay
 opam install camlp4 ocamlfind oasis
 ```
 
