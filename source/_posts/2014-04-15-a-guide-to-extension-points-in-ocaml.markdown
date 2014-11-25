@@ -23,16 +23,11 @@ In this article, I will explain how to amend OCaml's syntax using the extension 
 
 <!--more-->
 
-Note that the features I describe in this article are so bleeding edge, it'll need
-constant transfusions just to stay alive. The last transfusion, er, update, happened
-on 2014-05-07.
-
-In order to use the extension points API, you'll need a trunk compiler. As it already
-is not shipped with camlp4, you will need to install camlp4 separately. This all
-can be done with `opam`:
+Extension points are first released in OCaml 4.02. You will need to switch to 4.02 or
+a newer compiler, preferably using `opam`:
 
 ```
-opam switch reinstall 4.02.0dev+trunk
+opam switch 4.02.1
 opam install camlp4 ocamlfind oasis
 ```
 
@@ -180,6 +175,25 @@ val default_mapper : mapper
   * Finally, it provides an `Ast_mapper.run_main` function, which handles
     the command line arguments and I/O.
 
+AST quasiquotation
+------------------
+
+It is not very convenient to construct and deconstruct ASTs directly. To avoid this,
+the [ppx_tools][] library provides _AST quasiquotation_: it allows to embed AST fragments
+as literals inside the source code.
+
+For example, it is possible to construct an expression using `[%expr 2 + 2]`, inject
+a sub-AST from a variable into an expression with `[%expr 2 + [%e number]]`, and
+even match over ASTs using `match expr with [%expr [%e? lhs] + [%e? rhs]] -> lhs, rhs`.
+
+ppx_tools also provides a _rewriter_ tool that allows to test your syntax extension
+by feeding it source code fragments without using the somewhat awkward debugging
+options that the OCaml compiler provides.
+
+See the ppx_tools [README][ppx_tools] for further information.
+
+[ppx_tools]: https://github.com/alainfrisch/ppx_tools
+
 Example
 -------
 
@@ -262,7 +276,8 @@ This syntax extension can be easily compiled e.g. with
 `ocamlbuild -package compiler-libs.common ppx_getenv.native`.
 
 You can verify that this produces the desirable result by asking OCaml to pretty-print
-the transformed source: `ocamlc -dsource -ppx ./ppx_getenv.native foo.ml`:
+the transformed source with `ocamlc -dsource -ppx ./ppx_getenv.native foo.ml`, or,
+if `ppx_tools` is installed, `ocamlfind ppx_tools/rewriter ./ppx_getenv.native foo.ml`:
 
 {% codeblock lang:ocaml %}
 let _ = "whitequark"
@@ -279,13 +294,17 @@ Packaging
 ---------
 
 When your extension is ready, it's convenient to build and test it with [OASIS][],
-and distribute via [opam][]. This is not hard, but has a few gotchas.
+use [ocamlfind][] to allow other packages to use it, and distribute via [opam][].
 
-The OASIS configuration I suggest is simple:
+The OASIS configuration I suggest is as follows:
 
 {% codeblock _oasis %}
 # (header...)
 OCamlVersion: >= 4.02
+FilesAB:      lib/META.ab
+
+PreInstallCommand:   $ocamlfind install ppx_getenv lib/META
+PreUninstallCommand: $ocamlfind remove ppx_getenv
 
 Executable ppx_getenv
   Path:           lib
@@ -300,32 +319,38 @@ Test test_ppx_protobuf
   TestTools:      ppx_getenv
 {% endcodeblock %}
 
-The basic opam package can be generated with [oasis2opam][].
+Findlib (ocamlfind) also supports ppx syntax extensions in version 1.5.2
+or newer. To use it, add a file called `lib/META.ab`:
 
-After installing, the extension executable will be placed into `~/.opam/<version>/bin`.
-
-It is currently not possible to engage the syntax extension via findlib at all.
-To use it in applications, the following `myocamlbuild.ml` rule will work:
-
-{% codeblock myocamlbuild.ml lang:ocaml %}
-dispatch begin
-  function
-  | After_rules ->
-    flag ["ocaml"; "compile"; "use_ppx_getenv"] (S[A"-ppx"; A"ppx_getenv"]);
-  | _ -> ()
-end
+{% codeblock META.ab lang:text %}
+version = "$(pkg_ver)"
+ppx = "ppx_getenv"
 {% endcodeblock %}
+
+To use the syntax extension in other OCaml projects, simply require the
+ocamlfind package `ppx_getenv`, e.g. as `ocamlfind ocamlc -package ppx_getenv`.
+This will pass all necessary options to the compiler.
+
+The OPAM documentation nicely [explains][packaging] how to create a package,
+with instructions fully suitable for OASIS.
+
+Note that ideally, a build system should install a ppx extension under
+`lib/ppx_getenv` and use `ppx = "./ppx_getenv"` in the `META` file.
+This is to avoid polluting the global executable namespace with
+package-specific executables, and also avoiding name conflicts.
+However, OASIS does not make this easy, so in this example the executable
+is installed under `bin`.
 
 [opam]: https://opam.ocaml.org
 [oasis]: http://oasis.forge.ocamlcore.org/
-[oasis2opam]: https://github.com/ocaml/oasis2opam
+[ocamlfind]: http://projects.camlcity.org/projects/findlib.html
+[packaging]: http://opam.ocaml.org/doc/Packaging.html
 
 Conclusion
 ----------
 
-The extension points API is really nice, but it's not as usable yet as it could be.
-Nevertheless, it's possible to create and use extension packages without too much
-ugly workarounds.
+The extension points API is ready to be used in applications and is much nicer than
+camlp4.
 
 References
 ----------
@@ -349,4 +374,4 @@ on the topic extremely helpful. I only mention them now because they're quite ou
 [lexifi2]: http://www.lexifi.com/blog/syntax-extensions-without-camlp4-lets-do-it
 [extension_points.txt]: http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/frisch/extension_points.txt?view=log
 [experimental/frisch]: http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/frisch/
-[ocaml-ppx_getenv]: https://github.com/whitequark/ocaml-ppx_getenv
+[ocaml-ppx_getenv]: https://github.com/whitequark/ppx_getenv/tree/oasis
