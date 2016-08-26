@@ -5,6 +5,15 @@
   <nav role="navigation">{% include navigation.html %}</nav>
   <div id="main">
     <div id="content">
+      <div>
+      <article><div class="inset">
+        <h4>Heads up!</h4>
+        <p>This is my old blog, which is no longer updated, doesn't reflect my current opinions,
+        and remains here for archival purposes only.
+        Please don't take it too seriously; and
+        visit <a href="https://whitequark.org">whitequark.org</a> to see my current work!</p>
+      </div></article>
+      </div>
       {{ content | expand_urls: root_url }}
     </div>
   </div>
